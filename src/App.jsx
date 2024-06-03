@@ -39,7 +39,7 @@ function App() {
 		</>
 	) : (
 
-		<div className="flex flex-col h-screen justify-center items-center">
+		<div className="flex flex-col h-screen justify-center items-center bg-[#111827]">
 			<PulseLoader color="#367bd6" size={15} />
 			<div className="font-medium text-2xl text-[#367bd6] mt-5">Your data is being cooked.....🧑‍🍳</div>
 		</div>
