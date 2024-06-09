@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ThemeBtn from "./ThemeBtn";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import authService from "../appwrite/authService";
+import { login,logout } from "../context/authSlice";
 
 export default function Header() {
 	const authStatus = useSelector((state) => state.auth.status);
+	const [loggedinUser, setloggedinUser] = useState("");
+	const dispatch = useDispatch();
+	// useEffect(() => {
+	// 	const asyncFun = async () => {
+	// 		const response = await authService.getCurrUser();
+	// 		if (response) {
+	// 			console.log(response);
+	// 			dispatch(login(response));
+	// 		}
+	// 	};
+	// 	asyncFun();
+	// }, []);
+
 	const navigate = useNavigate();
+	const handleLogout = async () => {
+		await authService.logout();
+		dispatch(logout());
+		navigate("/")
+	};
 	return (
 		<header className='bg-white dark:bg-gray-900'>
 			<div className='mx-auto w-full px-4 sm:px-6 lg:px-8'>
@@ -36,20 +56,20 @@ export default function Header() {
 							<div className='hidden items-center md:flex'>
 								{/* conditionaly renders button based on authStatus */}
 								{!authStatus && (
-									<button onClick={() => navigate("/login")} className='rounded-md bg-teal-600 px-5 py-2.5 mx-3 text-sm font-medium text-white shadow dark:hover:bg-teal-500' href='#'>
+									<button onClick={() => navigate("/signin")} className='rounded-md bg-teal-600 px-5 py-2.5 mx-3 text-sm font-medium text-white shadow dark:hover:bg-teal-500' href='#'>
 										Login
 									</button>
 								)}
 
 								{!authStatus && (
-									<button onClick={() => navigate("/register")} className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
+									<button onClick={() => navigate("/signup")} className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
 										Register
 									</button>
 								)}
 
 								{authStatus && (
-									<button onClick={() => navigate("/logout")} className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
-										Logout
+									<button onClick={handleLogout} className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
+										Logout{" " + loggedinUser}
 									</button>
 								)}
 								<div>

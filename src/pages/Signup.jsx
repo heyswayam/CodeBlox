@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import authService from "../appwrite/authService";
+import { login } from "../context/authSlice";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 
-function Login() {
-	const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data) => console.log(data)
+function Signup() {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+	const [loading, setLoading] = useState(false);
 
-	return (
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const onSubmit = async (data) => {
+		setLoading(true);
+		const response = await authService.signUp(data);
+		if (response) {
+			dispatch(login(response));
+			setLoading(true)
+			navigate("/");
+		}
+	};
+
+	return loading === false ? (
 		<section className='bg-white dark:bg-gray-900'>
 			<div className='lg:grid lg:min-h-screen lg:grid-cols-12'>
 				<aside className='relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6'>
@@ -41,16 +63,15 @@ function Login() {
 									Full Name
 								</label>
 
-								<input {...register("FullName", { required: true })} type='text' id='FullName'  className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
+								<input {...register("name", { required: true })} type='text' id='FullName' className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
 							</div>
-
 
 							<div className='col-span-6'>
 								<label htmlFor='Email' className='block text-sm font-medium text-gray-700 dark:text-gray-200'>
 									Email
 								</label>
 
-								<input {...register("Email", { required: true })} type='email' id='Email'  className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
+								<input {...register("email", { required: true })} type='email' id='Email' className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
 							</div>
 
 							<div className='col-span-6 '>
@@ -58,20 +79,17 @@ function Login() {
 									Password
 								</label>
 
-								<input {...register("Password", { required: true })} type='password' id='Password'  className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
+								<input {...register("password", { required: true })} type='password' id='Password' className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
 							</div>
-
-
 
 							<div className='col-span-6'>
 								<p className='text-sm text-gray-500 dark:text-gray-400'>
 									By creating an account, you agree to our{" "}
 									<a href='#' className='text-gray-700 underline dark:text-gray-200'>
-                                        terms and conditions
-									</a>
-									{" "}and{" "}
+										terms and conditions
+									</a>{" "}
+									and{" "}
 									<a href='#' className='text-gray-700 underline dark:text-gray-200'>
-										
 										privacy policy
 									</a>
 									.
@@ -79,7 +97,10 @@ function Login() {
 							</div>
 
 							<div className='col-span-6 sm:flex sm:items-center sm:gap-4'>
-								<button type="submit" className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white'>
+								<button
+									type='submit'
+									className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white'
+								>
 									Create an account
 								</button>
 
@@ -96,7 +117,12 @@ function Login() {
 				</main>
 			</div>
 		</section>
+	) : (
+		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
+			<PulseLoader color='#367bd6' size={15} />
+			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Your data is being cooked.....🧑‍🍳</div>
+		</div>
 	);
 }
 
-export default Login;
+export default Signup;

@@ -14,7 +14,7 @@ class AuthService {
 
 	async signUp({ email, password, name }) {
 		try {
-			const newAccount = await account.create(ID.unique(), email, password, name);
+			const newAccount = await this.account.create(ID.unique(), email, password, name);
 			return newAccount;
 		} catch (error) {
 			console.log("auth.js :: signUp :: error " + error);
@@ -24,7 +24,7 @@ class AuthService {
 
 	async signIn({ email, password }) {
 		try {
-			const newAccount = await account.createEmailPasswordSession(email, password);
+			const newAccount = await this.account.createEmailPasswordSession(email, password);
 			return newAccount;
 		} catch (error) {
 			console.log("auth.js :: signIn :: error " + error);
@@ -33,7 +33,7 @@ class AuthService {
 	}
 	async logout() {
 		try {
-			await this.account.deleteSessions();
+			return await this.account.deleteSessions("current");
 		} catch (error) {
 			console.log("auth.js :: logout :: error " + error);
 			throw error;
@@ -47,6 +47,7 @@ class AuthService {
 			throw error;
 		}
 	}
+
 }
 
 const authService = new AuthService();
