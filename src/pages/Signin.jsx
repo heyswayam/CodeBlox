@@ -1,23 +1,25 @@
-import React,{useState} from "react";
+import React from "react";
 import authService from "../appwrite/authService";
 import { login } from "../context/authSlice";
-import { useDispatch } from "react-redux";
+import { setLoader } from "../context/loaderSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function Signin() {
-	const [loading, setLoading] = useState(false);
+	const loading = useSelector((state) => state.loading.loader);
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
 	const onSubmit = async (data) => {
 		try {
-			setLoading(true)
+			dispatch(setLoader(true));
 			const response = await authService.signIn(data);
 			if (response) {
 				dispatch(login(response));
-				setLoading(false)
+				dispatch(setLoader(false));
 				navigate("/home");
 			}
 		} catch (error) {
@@ -26,7 +28,6 @@ function Signin() {
 	};
 	return loading === false ? (
 		<>
-
 			<div className='mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 dark:bg-gray-800'>
 				<div className='mx-auto max-w-lg'>
 					<h1 className='text-center text-2xl font-bold text-indigo-600 sm:text-3xl dark:text-white'>Get started today</h1>

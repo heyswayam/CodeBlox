@@ -1,28 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import authService from "../appwrite/authService";
 import { login } from "../context/authSlice";
-import { useDispatch } from "react-redux";
+import { setLoader } from "../context/loaderSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function Signup() {
+	const loading = useSelector((state) => state.loading.loader);
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm();
-	const [loading, setLoading] = useState(false);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const onSubmit = async (data) => {
-		setLoading(true);
-		const response = await authService.signUp(data);
-		if (response) {
+		dispatch(setLoader(true));
+		const signUpStatus = await authService.signUp(data);
+		//logging in directly after successful signUp
+		if (signUpStatus) {
+			const { email, password } = data;
+			const response = await authService.signIn({email,password}) 
+			
 			dispatch(login(response));
-			setLoading(true)
+			dispatch(setLoader(false));
 			navigate("/");
 		}
 	};

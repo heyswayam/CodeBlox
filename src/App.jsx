@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 import authService from "./appwrite/authService";
 import { login, logout } from "./context/authSlice";
+import { setLoader } from "./context/loaderSlice";
 
 import { Header, Footer, Card, Dropdown } from "./components/index";
-import { Signup } from "./pages/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
-	const [loading, setLoading] = useState(true);
+	const loading = useSelector((state)=>state.loading.loader)
 	const dispatch = useDispatch();
 	//logged in or not
 	useEffect(() => {
@@ -19,16 +19,16 @@ function App() {
 			.then((userData) => {
 				if (userData) {
 					dispatch(login(userData));
+				} else {
+					dispatch(logout());
 				}
-				// else {
-				//     dispatch(logout());
-				// }
 			})
 			.catch((error) => {
-				console.log("User not logged in");
+				console.log("The error is being showed becoz the User is not logged in");
+				// console.log('\n'.repeat('25'));
 			})
 			.finally(() => {
-				setLoading(false);
+				dispatch(setLoader(false))
 			});
 	}, []);
 
@@ -41,7 +41,7 @@ function App() {
 	) : (
 		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
 			<PulseLoader color='#367bd6' size={15} />
-			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Your data is being cooked.....🧑‍🍳</div>
+			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Good things takes time.....🧑‍🍳</div>
 		</div>
 	);
 }
