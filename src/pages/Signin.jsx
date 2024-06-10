@@ -26,7 +26,7 @@ function Signin() {
 			console.log(`pages/Login/ error:: ${error}`);
 		}
 	};
-	return loading === false ? (
+	return (
 		<>
 			<div className='mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 dark:bg-gray-800'>
 				<div className='mx-auto max-w-lg'>
@@ -84,11 +84,6 @@ function Signin() {
 				</div>
 			</div>
 		</>
-	) : (
-		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
-			<PulseLoader color='#367bd6' size={15} />
-			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Your data is being cooked.....🧑‍🍳</div>
-		</div>
 	);
 }
 

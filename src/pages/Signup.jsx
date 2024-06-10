@@ -33,7 +33,7 @@ function Signup() {
 		}
 	};
 
-	return loading === false ? (
+	return (
 		<section className='bg-white dark:bg-gray-900'>
 			<div className='lg:grid lg:min-h-screen lg:grid-cols-12'>
 				<aside className='relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6'>
@@ -123,12 +123,7 @@ function Signup() {
 				</main>
 			</div>
 		</section>
-	) : (
-		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
-			<PulseLoader color='#367bd6' size={15} />
-			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Your data is being cooked.....🧑‍🍳</div>
-		</div>
-	);
+	)
 }
 
 export default Signup;

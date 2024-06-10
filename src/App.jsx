@@ -6,7 +6,7 @@ import authService from "./appwrite/authService";
 import { login, logout } from "./context/authSlice";
 import { setLoader } from "./context/loaderSlice";
 
-import { Header, Footer, Card, Dropdown } from "./components/index";
+import { Header, Footer, Card, Dropdown,RTE  } from "./components/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
 	return loading === false ? (
 		<>
 			<Header />
-			<Outlet />
+			<Outlet/>
 			<Footer />
 		</>
 	) : (

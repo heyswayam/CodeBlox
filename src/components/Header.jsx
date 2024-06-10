@@ -5,7 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import authService from "../appwrite/authService";
 import { login,logout } from "../context/authSlice";
 
+import { setLoader } from "../context/loaderSlice";
+
+
 export default function Header() {
+	const loading = useSelector((state) => state.loading.loader);
+
 	const authStatus = useSelector((state) => state.auth.status);
 	const [loggedinUser, setloggedinUser] = useState("");
 	const dispatch = useDispatch();
@@ -22,8 +27,10 @@ export default function Header() {
 
 	const navigate = useNavigate();
 	const handleLogout = async () => {
+		dispatch(setLoader(true));
 		await authService.logout();
 		dispatch(logout());
+		dispatch(setLoader(false));
 		navigate("/")
 	};
 	return (
