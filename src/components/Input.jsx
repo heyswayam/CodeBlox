@@ -2,6 +2,7 @@ import React, { forwardRef, useId } from "react";
 
 const Input = forwardRef(
     ({ label, type, className,...props },ref) => {
+		const id = useId()
 	return (
 		<>
 			{label && (

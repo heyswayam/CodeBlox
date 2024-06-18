@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function Signin() {
-	const loading = useSelector((state) => state.loading.loader);
+	// const loading = useSelector((state) => state.loading.loader);
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();

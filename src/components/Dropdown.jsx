@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Dropdown(
 	{
 		label = "filter",
-		options
+		options	//an object array, with text as parameter inside the object
 	},
 	ref,
 ) {
