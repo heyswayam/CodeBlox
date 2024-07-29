@@ -27,7 +27,9 @@ function Signup() {
 			const { email, password } = data;
 			const response = await authService.signIn({email,password}) 
 			
-			dispatch(login(response));
+			const userkaData = await authService.getCurrUser();
+			console.log(userkaData.$id);
+			dispatch(login(userkaData));
 			dispatch(setLoader(false));
 			navigate("/");
 		}
@@ -112,7 +114,7 @@ function Signup() {
 
 								<p className='mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400'>
 									Already have an account?{" "}
-									<a href='#' className='text-gray-700 underline dark:text-gray-200'>
+									<a href='/signin' className='text-gray-700 underline dark:text-gray-200'>
 										Log in
 									</a>
 									.

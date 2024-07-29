@@ -6,7 +6,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Error } from "./components/index.js";
 import { Provider } from "react-redux";
 import { store } from "./context/store.js";
-import {Signin, Signup,Home } from "../src/pages/index.js";
+import { Signin, Signup, Home,AddPost,AllPosts } from "../src/pages/index.js";
+import { AuthLayout } from "../src/components/index.js";
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -14,24 +16,52 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/Signin",
-				element: <Signin />,
+				element: (
+					<AuthLayout>
+						<Signin />
+					</AuthLayout>
+				),
 			},
 
 			{
 				path: "/signup",
-				element: <Signup/>,
+				element: (
+					<AuthLayout>
+						<Signup />
+					</AuthLayout>
+				),
 			},
 			{
-				path: "/home",
-				element: <Home/>,
+				path: "/addpost",
+				element: (
+					<AuthLayout>
+						<AddPost />
+					</AuthLayout>
+				),
+			},
+			{
+				path: "/posts",
+				element: (
+					<AuthLayout>
+						<AllPosts/>
+					</AuthLayout>
+				),
+			},
+			{
+				path: "/",
+				element: (
+					// <AuthLayout>
+						<Home />
+					// </AuthLayout> 
+				)
 			},
 		],
 	},
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
 	// <React.StrictMode>
-		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+	<Provider store={store}>
+		<RouterProvider router={router} />
+	</Provider>,
 	// </React.StrictMode>,
 );

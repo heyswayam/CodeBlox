@@ -8,19 +8,26 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
+
 function Signin() {
-	// const loading = useSelector((state) => state.loading.loader);
+	const loading = useSelector((state) => state.loading.loader);
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
+	const userData = useSelector((state) => state.auth.userData);
+
 	const onSubmit = async (data) => {
 		try {
 			dispatch(setLoader(true));
 			const response = await authService.signIn(data);
+			// console.log("response: " + response.$id);
 			if (response) {
-				dispatch(login(response));
+				const userkaData = await authService.getCurrUser();
+				dispatch(login(userkaData));
+
+				console.log("userData:  " + userkaData.$id);
 				dispatch(setLoader(false));
-				navigate("/home");
+				navigate("/");
 			}
 		} catch (error) {
 			console.log(`pages/Login/ error:: ${error}`);

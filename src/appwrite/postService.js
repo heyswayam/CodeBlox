@@ -1,27 +1,30 @@
-import { Client, Id, Storage } from "appwrite";
+import { Client, ID, Storage,Databases } from "appwrite";
 import conf_env from "../conf_env/conf_env";
 
-class postService {
+class PostService {
 	// client = new Client()
 	// databases
 	constructor() {
-		this.client = new Client().setEndpoint(conf_env.appwriteUrl).setProject(conf_env.projectId);
+		this.client = new Client()
+			.setEndpoint(conf_env.appwriteUrl)
+			.setProject(conf_env.projectId);
 
-		this.databases = new Databases(client);
+		this.databases = new Databases(this.client);
 
-        this.storage = new Storage(client);
+        this.storage = new Storage(this.client);
 	}
 
-	async createPost({ title, content, postImage, userId, status, slug }) {
+	async createPost({ title, content, postImageId, userId, status }) {
 		try {
-			return await this.databases.listDocuments(
+			return await this.databases.createDocument(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-				slug, //slug is used as documentId
+				// slug, //slug is used as documentId
+				ID.unique(), //used a randowm id for slug
 				{
 					title,
 					content,
-					postImage,
+					postImageId,
 					userId,
 					status,
 				} // queries 
@@ -30,17 +33,17 @@ class postService {
 			console.log("appwrite :: postConfig :: createPost :: error ::", error);
 		}
 	}
-	async updatePost({ title, content, postImage, status, slug }) {   
+	async updatePost({ title, content, postImageId, status, documentId }) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
 			return await this.databases.updateDocument(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-				slug, //slug is used as documentId
+				documentId, //slug is used as documentId
 				{
 					title,
 					content,
-					postImage,
+					postImageId,
 					status,
 				} // queries 
 			);
@@ -48,25 +51,26 @@ class postService {
 			console.log("appwrite :: postConfig :: updatePost :: error ::", error);
 		}
 	}
-	async deletePost({ slug }) {   
+	async deletePost({ documentId }) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
-			return await this.databases.updateDocument(
+			return await this.databases.deleteDocument(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-				slug, //slug is used as documentId
+				documentId, //slug is used as documentId
+
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: deletePost :: error ::", error);
 		}
 	}
-    async getPost({slug }) {   
+    async getPost({documentId }) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
 			return await this.databases.getDocument(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-				slug, //slug is used as documentId
+				documentId, //slug is used as documentId
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: getPost :: error ::", error);
@@ -78,18 +82,18 @@ class postService {
 			return await this.databases.listDocuments(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-                [Query.equal("status", ["Active"])]
+                // [Query.equal("status", ["Active"])] //querry commented temporarily
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: listPosts :: error ::", error);
 		}
 	}
     //file upload services
-    async uploadFile({file}){
+    async uploadFile(file){
         try {
             return await this.storage.createFile(
                 conf_env.bucketId, // bucketId
-                Id.unique(), // fileId
+                ID.unique(), // fileId
                 file
             )
 		} catch (error) {
@@ -100,8 +104,7 @@ class postService {
         try {
             return await this.storage.createFile(
                 conf_env.bucketId, // bucketId
-                Id.unique(), // fileId
-                file
+                fileId, // fileId
             )
 		} catch (error) {
 			console.log("appwrite :: postConfig :: uploadFile :: error ::", error);
@@ -111,7 +114,7 @@ class postService {
         try {
             return await this.storage.getFilePreview(
                 conf_env.bucketId, // bucketId
-                fileId
+                fileId,
             )
 		} catch (error) {
 			console.log("appwrite :: postConfig :: uploadFile :: error ::", error);
@@ -120,5 +123,5 @@ class postService {
 
 
 }
-const postService = new postService();
+const postService = new PostService();
 export default postService;

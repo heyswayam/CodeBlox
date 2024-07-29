@@ -10,9 +10,11 @@ import { setLoader } from "../context/loaderSlice";
 
 export default function Header() {
 	const loading = useSelector((state) => state.loading.loader);
-
+	console.log("loading: "+ loading);
 	const authStatus = useSelector((state) => state.auth.status);
-	const [loggedinUser, setloggedinUser] = useState("");
+	console.log("auth: "+ authStatus);
+	// const userData = useSelector((state)=>state.auth.userData)
+	// const loggedinUser = userData.name || "";
 	const dispatch = useDispatch();
 	// useEffect(() => {
 	// 	const asyncFun = async () => {
@@ -34,7 +36,7 @@ export default function Header() {
 		navigate("/")
 	};
 	return (
-		<header className='bg-white dark:bg-gray-900'>
+		<header className='bg-white dark:bg-gray-900  sticky top-0 '>
 			<div className='mx-auto w-full px-4 sm:px-6 lg:px-8'>
 				<div className='flex h-16 items-center justify-between'>
 					<div className='flex-1 md:flex md:items-center md:gap-12'>
@@ -47,15 +49,20 @@ export default function Header() {
 						<nav aria-label='Global' className='hidden md:block'>
 							<ul className='flex items-center gap-6 text-sm'>
 								<li>
-									<Link to='/home' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
+									<Link to='/' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
 										Home
 									</Link>
 								</li>
 								<li>
-									<Link to='/yourBlogs' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
-										Your Blogs
+									<Link to='/posts' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
+										All Posts
 									</Link>
 								</li>
+								{/* <li>
+									<Link to='/myposts' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
+										Your Blogs
+									</Link>
+								</li> */}
 							</ul>
 						</nav>
 
@@ -75,8 +82,15 @@ export default function Header() {
 								)}
 
 								{authStatus && (
+
+									<Link to="/addpost" className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75'>
+										Add Post
+									</Link>
+								)}
+								{authStatus && (
 									<button onClick={handleLogout} className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
-										Logout{" " + loggedinUser}
+										{/* Logout{" " + loggedinUser} */}
+										Logout
 									</button>
 								)}
 								<div>

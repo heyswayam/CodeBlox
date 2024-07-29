@@ -8,5 +8,6 @@ import Dropdown from "./Dropdown";
 import RTE from "./RTE";
 import PostForm from "./PostForm";
 import Input from "./Input"
-
-export { ThemeBtn, Header, Footer,Container, Error,Card,Dropdown,RTE,PostForm,Input };
+import AuthLayout from "../components/AuthLayout"
+export { ThemeBtn, Header, Footer,Container, Error,Card,Dropdown,RTE,PostForm,AuthLayout };
+//removed Input
