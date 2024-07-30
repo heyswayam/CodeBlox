@@ -15,6 +15,7 @@
     "alpinejs": "^3.14.0",
     "appwrite": "^14.0.1",
     "fs-extra": "^11.2.0",
+    "html-react-parser": "^5.1.12",
     "lucide-react": "^0.379.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -51,7 +51,7 @@ class PostService {
 			console.log("appwrite :: postConfig :: updatePost :: error ::", error);
 		}
 	}
-	async deletePost({ documentId }) {   
+	async deletePost( documentId ) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
 			return await this.databases.deleteDocument(
@@ -64,7 +64,7 @@ class PostService {
 			console.log("appwrite :: postConfig :: deletePost :: error ::", error);
 		}
 	}
-    async getPost({documentId }) {   
+    async getPost(documentId) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
 			return await this.databases.getDocument(
@@ -100,7 +100,7 @@ class PostService {
 			console.log("appwrite :: postConfig :: uploadFile :: error ::", error);
 		}
     }
-    async deleteFile({fileId}){
+    async deleteFile(fileId){
         try {
             return await this.storage.createFile(
                 conf_env.bucketId, // bucketId

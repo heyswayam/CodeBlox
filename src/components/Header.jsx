@@ -54,7 +54,7 @@ export default function Header() {
 									</Link>
 								</li>
 								<li>
-									<Link to='/posts' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
+									<Link to='/all-post' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
 										All Posts
 									</Link>
 								</li>
@@ -83,7 +83,7 @@ export default function Header() {
 
 								{authStatus && (
 
-									<Link to="/addpost" className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75'>
+									<Link to="/add-post" className='rounded-md bg-gray-100 px-5 py-2.5 mx-3 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75'>
 										Add Post
 									</Link>
 								)}

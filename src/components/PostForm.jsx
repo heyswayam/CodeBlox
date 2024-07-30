@@ -1,13 +1,15 @@
-import React, { useReducer, useRef } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import { RTE } from "./index";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import postService from "../appwrite/postService";
 import { useForm } from "react-hook-form";
+import { PulseLoader } from "react-spinners";
+
 export default function PostForm({ post }) {
 	// const ref = useRef(0);
-	
-	const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
+	const [loading,setLoading] = useState(false);
+	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
 			// slug: post?.$id || "",
@@ -21,37 +23,42 @@ export default function PostForm({ post }) {
 	const content = getValues('content');  //just using getValues automatically adds the values of RTE into the data object of
 	
 	const submit = async (data) => {
-
-		console.log("userkaData" + userData.$id);
+		setLoading(true);
+		// console.log("userkaData" + userData.$id);
 		if (post) {
-			const file = data.image[0] ? postService.uploadFile(data.image[0]) : null;
+			const file = data.postImage[0] ? postService.uploadFile(data.postImage[0]) : null;
 			if (file) {
-				postService.deleteFile(post.postImage);
+				postService.deleteFile(post.postImageId);
 			}
 			const dbPost = await postService.updatePost(post.$id, {
 				...data,
-				postImage: file ? file.$id : undefined,
+				postImageId: file ? file.$id : undefined,
 			});
 			if (dbPost) {
 				navigate(`/post/${dbPost.$id}`);
 			}
+			console.log("post??????");
+			console.log(post);
 		} else {
 			const file = await postService.uploadFile(data.postImage[0]);
-			console.log(data);
-			console.log(file);
+			// console.log(data);
+			// console.log(file);
 			if (file) {
 				const imageId = file.$id;
 				const { postImage, ...restData } = data; // Destructure to exclude postImage
 				const dbPost = await postService.createPost({ ...restData, postImageId:imageId, userId: userData.$id });
-				console.log(restData);
+				// console.log(restData);
 				if (dbPost) {
 					// navigate(`/post/${dbPost.userId}`);
 				}
 			}
 		}
+		// reset();
+		alert("successfull")
+		setLoading(false);
 	};
 
-	return (
+	return loading===false ?  (
 		<>
 			{/* Heads up! 👋 Plugins: - @tailwindcss/forms */}
 			<form onSubmit={handleSubmit(submit)}>
@@ -83,7 +90,7 @@ export default function PostForm({ post }) {
 									<input label='Post Image :' type='file' className='mb-4' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage",  )} />
 									{post && (
 										<div className='w-full mb-4'>
-											<img src={postService.getFilePreview(post.postImage[0])} alt={post.title} className='rounded-lg' />
+											<img src={postService.getFilePreview(post.postImageId)} alt={post.title} className='rounded-lg' />
 										</div>
 									)}
 								</div>
@@ -102,5 +109,10 @@ export default function PostForm({ post }) {
 				</section>
 			</form>
 		</>
+	): (
+		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
+			<PulseLoader color='#367bd6' size={15} />
+			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Good things takes time.....🧑‍🍳</div>
+		</div>
 	);
 }

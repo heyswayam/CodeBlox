@@ -6,8 +6,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Error } from "./components/index.js";
 import { Provider } from "react-redux";
 import { store } from "./context/store.js";
-import { Signin, Signup, Home,AddPost,AllPosts } from "../src/pages/index.js";
+import { Signin, Signup, Home,AddPost,AllPosts,Post,EditPost } from "../src/pages/index.js";
 import { AuthLayout } from "../src/components/index.js";
+
 
 const router = createBrowserRouter([
 	{
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/addpost",
+				path: "/add-post",
 				element: (
 					<AuthLayout>
 						<AddPost />
@@ -40,10 +41,26 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/posts",
+				path: "/all-post",
 				element: (
 					<AuthLayout>
 						<AllPosts/>
+					</AuthLayout>
+				),
+			},
+			{
+				path: "/edit-post/:slug",
+				element: (
+					<AuthLayout>
+						<EditPost/>
+					</AuthLayout>
+				),
+			},
+			{
+				path: "/post/:slug",
+				element: (
+					<AuthLayout>
+						<Post/>
 					</AuthLayout>
 				),
 			},
