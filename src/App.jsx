@@ -33,11 +33,14 @@ function App() {
 	}, []);
 
 	return loading === false ? (
-		<>
+		<div className="flex flex-col min-h-screen">
 			<Header />
-			<Outlet/>
+			<main className="flex-grow">
+				{/* Your main content goes here */}
+				<Outlet/>
+			</main>
 			<Footer />
-		</>
+		</div>
 	) : (
 		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
 			<PulseLoader color='#367bd6' size={15} />
