@@ -6,12 +6,11 @@ import authService from "../appwrite/authService";
 import { login, logout } from "../context/authSlice";
 import { setLoader } from "../context/loaderSlice";
 
-
 export default function Header() {
 	const loading = useSelector((state) => state.loading.loader);
-	console.log("loading: "+ loading);
+	console.log("loading: " + loading);
 	const authStatus = useSelector((state) => state.auth.status);
-	console.log("auth: "+ authStatus);
+	console.log("auth: " + authStatus);
 	// const userData = useSelector((state)=>state.auth.userData)
 	// const loggedinUser = userData.name || "";
 	const dispatch = useDispatch();
@@ -32,7 +31,7 @@ export default function Header() {
 		await authService.logout();
 		dispatch(logout());
 		dispatch(setLoader(false));
-		navigate("/")
+		navigate("/");
 	};
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -41,8 +40,8 @@ export default function Header() {
 		<header className='bg-white dark:bg-gray-900  sticky top-0 z-10'>
 			<div className='mx-auto w-full px-4 sm:px-6 lg:px-8'>
 				<div className='flex h-16 items-center justify-between'>
-					<div className='flex-1 md:flex md:items-center md:gap-12'>
-						<Link to='/' className='block dark:text-white text-gray-500 font-mono text-xl'>
+					<div className='flex-1  md:flex md:items-center md:gap-12'>
+						<Link to='/' className='block  w-fit  dark:text-white text-gray-500 font-mono text-xl'>
 							CodeBlox
 						</Link>
 					</div>
@@ -105,44 +104,63 @@ export default function Header() {
 									<div className='absolute top-16 right-0 bg-white dark:bg-gray-900 p-4 w-full transition duration-300 ease-in-out   -translate-y-4'>
 										<ul>
 											<li>
-												<Link to='/' className='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition hover:text-gray-500/75 dark:hover:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
+												<Link
+													to='/'
+													onClick={() => setIsOpen(!isOpen)}
+													className='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition hover:text-gray-500/75 dark:hover:bg-gray-800 dark:text-white dark:hover:text-white/75'
+													href='#'
+												>
 													Home
 												</Link>
 											</li>
 											<li>
-												<Link to='/all-post' className='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition hover:text-gray-500/75 dark:hover:bg-gray-800 dark:text-white dark:hover:text-white/75' href='#'>
+												<Link
+													to='/all-post'
+													onClick={() => setIsOpen(!isOpen)}
+													className='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition hover:text-gray-500/75 dark:hover:bg-gray-800 dark:text-white dark:hover:text-white/75'
+													href='#'
+												>
 													All Posts
 												</Link>
 											</li>
 										</ul>
 										<div className='flex h-fit justify-between  w-6/12 ml-3 m-4'>
 											{!authStatus && (
-												<button onClick={() => navigate("/signin")} className='bg-teal-600 block rounded-md px-4 py-2 text-xs text-white hover:bg-teal-700 hover:text-white transition dark:text-white dark:hover:bg-teal-700 dark:hover:text-white/90'>
+												<button
+													onClick={() => {
+														setIsOpen(!isOpen);
+														navigate("/signin");
+													}}
+													className='bg-teal-600 block rounded-md px-4 py-2 text-xs text-white hover:bg-teal-700 hover:text-white transition dark:text-white dark:hover:bg-teal-700 dark:hover:text-white/90'
+												>
 													Login
 												</button>
 											)}
 											{!authStatus && (
-												<button onClick={() => navigate("/signup")} className='bg-teal-600 block rounded-md px-4 py-2 text-xs text-white hover:bg-teal-700 hover:text-white transition dark:text-white dark:hover:bg-teal-700 dark:hover:text-white/90' href='#'>
+												<button
+													onClick={() => {
+														setIsOpen(!isOpen);
+														navigate("/signup");
+													}}
+													className='bg-teal-600 block rounded-md px-4 py-2 text-xs text-white hover:bg-teal-700 hover:text-white transition dark:text-white dark:hover:bg-teal-700 dark:hover:text-white/90'
+													href='#'
+												>
 													Register
 												</button>
 											)}
-{authStatus && (
-  <Link 
-    to='/add-post' 
-    className='block rounded-lg px-4 py-2 text-xs text-white hover:bg-blue-600 transition bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white'
-  >
-    Add Post
-  </Link>
-)}
-{authStatus && (
-  <button 
-    onClick={handleLogout} 
-    className='block rounded-lg px-4 py-2 text-xs text-white bg-red-500  hover:bg-red-600 transition dark:bg-red-600 dark:hover:bg-red-500 dark:hover:text-white'
-  >
-    Logout
-  </button>
-)}
-											<div className="content-center">
+											{authStatus && (
+												<Link to='/add-post'  onClick={() => setIsOpen(!isOpen)} className='block rounded-lg px-4 py-2 text-xs text-white hover:bg-blue-600 transition bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white'>
+													Add Post
+												</Link>
+											)}
+											{authStatus && (
+												<button onClick={() => {
+													handleLogout();
+													setIsOpen(!isOpen)}} className='block rounded-lg px-4 py-2 text-xs text-white bg-red-500  hover:bg-red-600 transition dark:bg-red-600 dark:hover:bg-red-500 dark:hover:text-white'>
+													Logout
+												</button>
+											)}
+											<div className='content-center'>
 												{/* handles dark mode light mode switching */}
 												<ThemeBtn />
 											</div>

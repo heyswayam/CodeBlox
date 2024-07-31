@@ -5,7 +5,7 @@ import postService from "../appwrite/postService";
 function Card({ $id, title, fileid, content }) {
 	// Helper function to truncate HTML content to the first 50 characters
 	const truncateHTML = (html, charLimit) => {
-		const text = html.replace(/<[^>]+>/g, ""); // Remove HTML tags
+		const text = html.replace(/<[^>]+>|&nbsp;|&[a-zA-Z]+;/g, ""); // Remove HTML tags and HTML entities like &nbsp; &amp;, &lt;, &gt;
 		return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
 	};
     const [imageAddress, setImageAddress] = useState("");
@@ -26,11 +26,11 @@ function Card({ $id, title, fileid, content }) {
 
 	return (
 		<div className='max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
-			<Link to={`/posts/${$id}`}>
+			<Link to={`/post/${$id}`}>
 				<img className='rounded-t-lg w-full h-60 object-cover' src={imageAddress} alt={title} />
 			</Link>
 			<div className='p-5'>
-				<Link to={`/posts/${$id}`}>
+				<Link to={`/post/${$id}`}>
 					<h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{title}</h5>
 				</Link>
 				<p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{truncateHTML(content, 50)}</p>

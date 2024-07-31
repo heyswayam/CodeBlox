@@ -5,7 +5,7 @@ import { setLoader } from "../context/loaderSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function Signup() {
@@ -114,9 +114,9 @@ function Signup() {
 
 								<p className='mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400'>
 									Already have an account?{" "}
-									<a href='/signin' className='text-gray-700 underline dark:text-gray-200'>
+									<Link to='/signin' className='text-gray-700 underline dark:text-gray-200'>
 										Log in
-									</a>
+									</Link>
 									.
 								</p>
 							</div>

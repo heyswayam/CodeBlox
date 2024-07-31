@@ -112,7 +112,7 @@ class PostService {
     }
     async getFilePreview(fileId){
         try {
-            return await this.storage.getFilePreview(
+            return this.storage.getFilePreview(
                 conf_env.bucketId, // bucketId
                 fileId,
             )

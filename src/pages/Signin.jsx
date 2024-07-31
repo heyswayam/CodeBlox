@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import authService from "../appwrite/authService";
 import { login } from "../context/authSlice";
 import { setLoader } from "../context/loaderSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
-
 
 function Signin() {
 	const loading = useSelector((state) => state.loading.loader);
@@ -15,7 +14,11 @@ function Signin() {
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
+	const [passwordVisible, setPasswordVisible] = useState(false);
 
+	const handlePasswordVisibility = () => {
+		setPasswordVisible(!passwordVisible);
+	};
 	const onSubmit = async (data) => {
 		try {
 			dispatch(setLoader(true));
@@ -66,9 +69,9 @@ function Signin() {
 							</label>
 
 							<div className='relative'>
-								<input {...register("password")} type='password' className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter password' />
+								<input {...register("password")} type={passwordVisible ? "text" : "password"} className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter password' />
 
-								<span className='absolute inset-y-0 end-0 grid place-content-center px-4'>
+								<span className='absolute inset-y-0 end-0 grid place-content-center px-4 cursor-pointer' onClick={handlePasswordVisibility}>
 									<svg xmlns='http://www.w3.org/2000/svg' className='size-4 text-gray-400 dark:text-gray-300' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
 										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
 										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' />
@@ -83,9 +86,9 @@ function Signin() {
 
 						<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
 							No account?
-							<a className='underline dark:text-indigo-400' href='/signup'>
+							<Link to='/signup' className='underline dark:text-indigo-400'>
 								Sign up
-							</a>
+							</Link>
 						</p>
 					</form>
 				</div>
