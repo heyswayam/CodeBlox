@@ -63,7 +63,7 @@ function Signup() {
 							Welcome to <span className='font-mono font-thin'>CodeBlox</span>
 						</h1>
 
-						<p className='mt-4 leading-relaxed text-gray-500 dark:text-gray-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.</p>
+						<p className='mt-4 leading-relaxed text-gray-500 dark:text-gray-400'>Sign up and join the party! (Don't worry, we won't make you dance)</p>
 
 						<form onSubmit={handleSubmit(onSubmit)} className='mt-8 grid grid-cols-6 gap-6 w-10/12 '>
 							<div className='col-span-6'>
@@ -92,15 +92,7 @@ function Signup() {
 
 							<div className='col-span-6'>
 								<p className='text-sm text-gray-500 dark:text-gray-400'>
-									By creating an account, you agree to our{" "}
-									<a href='#' className='text-gray-700 underline dark:text-gray-200'>
-										terms and conditions
-									</a>{" "}
-									and{" "}
-									<a href='#' className='text-gray-700 underline dark:text-gray-200'>
-										privacy policy
-									</a>
-									.
+								By signing up, you agree to our terms and conditions 🥱. And our privacy policy: we won't spam you, unless you're a bot
 								</p>
 							</div>
 

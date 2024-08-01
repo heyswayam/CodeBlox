@@ -37,7 +37,7 @@ export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<header className='bg-white dark:bg-gray-900  sticky top-0 z-10'>
+		<header className='bg-white/30 dark:bg-gray-900/30 backdrop-blur-md sticky top-0 z-10'>
 			<div className='mx-auto w-full px-4 sm:px-6 lg:px-8'>
 				<div className='flex h-16 items-center justify-between'>
 					<div className='flex-1  md:flex md:items-center md:gap-12'>

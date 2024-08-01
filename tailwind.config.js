@@ -5,13 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-
+    extend: {
+      fontFamily: {
+        bebas: ['"Bebas Neue"', 'sans-serif'],
+      },
+    },
   },
   darkMode: "class",
   plugins: [
     require('@tailwindcss/forms'),
   ],
+
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode

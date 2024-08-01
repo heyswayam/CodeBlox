@@ -39,10 +39,12 @@ function Signin() {
 	return (
 		<>
 			<div className='mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 dark:bg-gray-800'>
-				<div className='mx-auto max-w-lg'>
-					<h1 className='text-center text-2xl font-bold text-indigo-600 sm:text-3xl dark:text-white'>Get started today</h1>
+				<div className='mx-auto max-w-lg my-10 text-center'>
+					<h1 className='mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white'>
+						Welcome to <span className='font-mono font-thin'>CodeBlox</span>
+					</h1>
 
-					<p className='mx-auto mt-4 max-w-md text-center text-gray-500 dark:text-gray-300'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati sunt dolores deleniti inventore quaerat mollitia?</p>
+					<p className='mx-auto mt-4 max-w-md text-center text-gray-500 dark:text-gray-300'>Our promise to you: we'll keep your account safe, unless you use a password like 'password123'?</p>
 
 					<form onSubmit={handleSubmit(onSubmit)} className='mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700'>
 						<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
