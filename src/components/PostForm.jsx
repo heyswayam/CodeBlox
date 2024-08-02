@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { RTE } from "./index";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -7,8 +7,11 @@ import { useForm } from "react-hook-form";
 import { PulseLoader } from "react-spinners";
 
 export default function PostForm({ post }) {
-	// const ref = useRef(0);
-	const [loading,setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+	const userData = useSelector((state) => state.auth.userData);
+	const [imgsrc, setImgsrc] = useState("");
+
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
@@ -17,48 +20,56 @@ export default function PostForm({ post }) {
 			status: post?.status || "active",
 		},
 	});
-	const navigate = useNavigate();
-	const userData = useSelector((state) => state.auth.userData);
+	const content = getValues("content"); //just using getValues automatically adds the values of RTE into the data object of
 
-	const content = getValues('content');  //just using getValues automatically adds the values of RTE into the data object of
-	
+	useEffect(() => {
+		if (post) {
+			setValue("title", post.title);
+			setValue("content", post.content);
+			setValue("status", post.status);
+			postService.getFilePreview(post.postImageId).then((e) => {
+				setImgsrc(e);
+			});
+		}
+	}, [post, setValue]);
 	const submit = async (data) => {
 		setLoading(true);
 		// console.log("userkaData" + userData.$id);
 		if (post) {
-			const file = data.postImage[0] ? postService.uploadFile(data.postImage[0]) : null;
+			const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
+			console.log(post);
 			if (file) {
 				postService.deleteFile(post.postImageId);
 			}
-			const dbPost = await postService.updatePost(post.$id, {
-				...data,
-				postImageId: file ? file.$id : undefined,
-			});
-			if (dbPost) {
-				navigate(`/post/${dbPost.$id}`);
-			}
-			console.log("post??????");
-			console.log(post);
+			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId }).then((dbPost) => {navigate(`/post/${dbPost.$id}`);});
+			setLoading(false);
+			alert("successfull_post_edited");
+			navigate("/all-posts");
 		} else {
 			const file = await postService.uploadFile(data.postImage[0]);
-			// console.log(data);
-			// console.log(file);
 			if (file) {
 				const imageId = file.$id;
 				const { postImage, ...restData } = data; // Destructure to exclude postImage
-				const dbPost = await postService.createPost({ ...restData, postImageId:imageId, userId: userData.$id });
-				// console.log(restData);
-				if (dbPost) {
-					// navigate(`/post/${dbPost.userId}`);
-				}
+				postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id }).then((dbPost) => {
+					// console.log(dbPost);
+					navigate(`/post/${dbPost.$id}`);
+				});
+				setLoading(false);
+				alert("successfull");
 			}
 		}
-		// reset();
-		alert("successfull")
 		setLoading(false);
 	};
+	if (post) {
+		useEffect(() => {
+			postService.getFilePreview(post.postImageId).then((e) => {
+				setImgsrc(e);
+				console.log(content);
+			});
+		}, []);
+	}
 
-	return loading===false ?  (
+	return loading === false ? (
 		<>
 			{/* Heads up! 👋 Plugins: - @tailwindcss/forms */}
 			<form onSubmit={handleSubmit(submit)}>
@@ -87,15 +98,15 @@ export default function PostForm({ post }) {
 									</div>
 								</div>
 								<div>
-									<input label='Post Image :' type='file' className='mb-4' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage",  )} />
+									<input label='Post Image :' type='file' className='mb-4' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage")} />
 									{post && (
-										<div className='w-full mb-4'>
-											<img src={postService.getFilePreview(post.postImageId)} alt={post.title} className='rounded-lg' />
+										<div className='w-2/4 mb-4 relative'>
+											<img className='object-contain border-2 border-gray-300 rounded-lg p-1' src={imgsrc} alt={post.title} />
 										</div>
 									)}
 								</div>
 								<div>
-									<RTE name="content" control={control} />
+									<RTE name='content' control={control} />
 								</div>
 
 								<div className='mt-4'>
@@ -109,7 +120,7 @@ export default function PostForm({ post }) {
 				</section>
 			</form>
 		</>
-	): (
+	) : (
 		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
 			<PulseLoader color='#367bd6' size={15} />
 			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Good things takes time.....🧑‍🍳</div>

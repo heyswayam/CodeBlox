@@ -21,8 +21,8 @@ function EditPost() {
     }, [slug, navigate])
   return post ? (
     <div className='py-8'>
-            {console.log(post)}
-            {/* <PostForm post={post} /> */}
+            {/* {console.log(post)} */}
+            <PostForm post={post} />
 
     </div>
   ) : null

@@ -18,7 +18,7 @@ export default function Home() {
 					<br />
 					CONNECT
 				</p>
-				<Link to='/all-post'>
+				<Link to='/all-posts'>
         <button 
   className='text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
              hover:bg-gradient-to-br  focus:outline-none

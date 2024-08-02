@@ -1,4 +1,4 @@
-import { Client, ID, Storage,Databases } from "appwrite";
+import { Client, ID, Storage,Databases,Query } from "appwrite";
 import conf_env from "../conf_env/conf_env";
 
 class PostService {
@@ -82,10 +82,22 @@ class PostService {
 			return await this.databases.listDocuments(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-                // [Query.equal("status", ["Active"])] //querry commented temporarily
+                // [Query.equal('index_key', 'on')] //querry commented temporarily
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: listPosts :: error ::", error);
+		}
+	}
+    async listPostsPrivate() {   
+        //userId was not taken in lecture since, the OP can only edit it
+		try {
+			return await this.databases.listDocuments(
+				conf_env.databaseId, // databaseId
+				conf_env.colectionId, // collectionId
+                [Query.equal("status", ["Active"])] //querry commented temporarily
+			);
+		} catch (error) {
+			console.log("appwrite :: postConfig :: listPostsPrivate :: error ::", error);
 		}
 	}
     //file upload services
@@ -102,12 +114,12 @@ class PostService {
     }
     async deleteFile(fileId){
         try {
-            return await this.storage.createFile(
+            return await this.storage.deleteFile(
                 conf_env.bucketId, // bucketId
                 fileId, // fileId
             )
 		} catch (error) {
-			console.log("appwrite :: postConfig :: uploadFile :: error ::", error);
+			console.log("appwrite :: postConfig :: deleteFile :: error ::", error);
 		}
     }
     async getFilePreview(fileId){
@@ -117,7 +129,7 @@ class PostService {
                 fileId,
             )
 		} catch (error) {
-			console.log("appwrite :: postConfig :: uploadFile :: error ::", error);
+			console.log("appwrite :: postConfig :: getFilePreview :: error ::", error);
 		}
     }
 

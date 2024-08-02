@@ -22,7 +22,7 @@ export default function Post() {
 					setPost(post);
 					postService.getFilePreview(post.postImageId).then((e) => {
 						setImgsrc(e);
-						console.log(e);
+						// console.log(e);
 					});
 					setLoading(false);
 				} else {
@@ -39,9 +39,9 @@ export default function Post() {
 	const deletePost = () => {
 		postService.deletePost(post.$id).then((status) => {
 			if (status) {
-				console.log(post);
+				console.log(post.postImageId);
 				postService.deleteFile(post.postImageId);
-				navigate("/");
+				navigate("/all-posts");
 			}
 		});
 	};
@@ -63,7 +63,7 @@ export default function Post() {
 			)}
 			<div className='w-full flex flex-col items-center mb-4 relative'>
 				{/* <div className='w-full aspect-w-16 aspect-h-9'> */}
-				<img className='w-full max-h-80 object-cover' src={imgsrc} alt={post.title} />
+				<img className='w-full max-h-80 object-cover' loading="lazy" src={imgsrc} alt={post.title} />
 				{/* </div> */}
 			</div>
 

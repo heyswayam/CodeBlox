@@ -15,7 +15,7 @@ function Card({ $id, title, fileid, content }) {
             try {
                 const address = await postService.getFilePreview(fileid);
                 setImageAddress(address);
-                console.log(address);
+                // console.log(address);
             } catch (error) {
                 console.error("Error fetching image address:", error);
             }
@@ -27,7 +27,7 @@ function Card({ $id, title, fileid, content }) {
 	return (
 		<div className='max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
 			<Link to={`/post/${$id}`}>
-				<img className='rounded-t-lg w-full h-60 object-cover' src={imageAddress} alt={title} />
+				<img className='rounded-t-lg w-full h-60 object-cover' loading="lazy" src={imageAddress} alt={title} />
 			</Link>
 			<div className='p-5'>
 				<Link to={`/post/${$id}`}>

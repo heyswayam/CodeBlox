@@ -11,11 +11,14 @@ import PulseLoader from "react-spinners/PulseLoader";
 function Signin() {
 	const loading = useSelector((state) => state.loading.loader);
 	const dispatch = useDispatch();
-	const { register, handleSubmit } = useForm();
-	const navigate = useNavigate();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 	const userData = useSelector((state) => state.auth.userData);
 	const [passwordVisible, setPasswordVisible] = useState(false);
-
+const navigate = useNavigate();
 	const handlePasswordVisibility = () => {
 		setPasswordVisible(!passwordVisible);
 	};
@@ -30,7 +33,7 @@ function Signin() {
 
 				console.log("userData:  " + userkaData.$id);
 				dispatch(setLoader(false));
-				navigate("/");
+				navigate("/all-posts");
 			}
 		} catch (error) {
 			console.log(`pages/Login/ error:: ${error}`);
@@ -55,7 +58,7 @@ function Signin() {
 							</label>
 
 							<div className='relative'>
-								<input {...register("email")} type='email' className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter email' />
+								<input {...register("email", { required: true})} type='email' className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter email' />
 
 								<span className='absolute inset-y-0 end-0 grid place-content-center px-4'>
 									<svg xmlns='http://www.w3.org/2000/svg' className='size-4 text-gray-400 dark:text-gray-300' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -71,7 +74,8 @@ function Signin() {
 							</label>
 
 							<div className='relative'>
-								<input {...register("password")} type={passwordVisible ? "text" : "password"} className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter password' />
+								<input {...register("password", { required: true, minLength: 8 })} type='password' className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter password' />
+								{errors.password && errors.password.type === "minLength" && <p className='text-red-500 text-sm mt-2'>Password must be at least 8 characters long.</p>}
 
 								<span className='absolute inset-y-0 end-0 grid place-content-center px-4 cursor-pointer' onClick={handlePasswordVisibility}>
 									<svg xmlns='http://www.w3.org/2000/svg' className='size-4 text-gray-400 dark:text-gray-300' fill='none' viewBox='0 0 24 24' stroke='currentColor'>

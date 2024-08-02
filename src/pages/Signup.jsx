@@ -31,7 +31,7 @@ function Signup() {
 			console.log(userkaData.$id);
 			dispatch(login(userkaData));
 			dispatch(setLoader(false));
-			navigate("/");
+			navigate("/all-posts");
 		}
 	};
 
@@ -87,7 +87,8 @@ function Signup() {
 									Password
 								</label>
 
-								<input {...register("password", { required: true })} type='password' id='Password' className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' />
+								<input {...register("password", { required: true, minLength: 8 })} type='password' id='Password' className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200' placeholder='Enter password' />
+								{errors.password && errors.password.type === "minLength" && <p className='text-red-500 text-sm mt-2'>Password must be at least 8 characters long.</p>}
 							</div>
 
 							<div className='col-span-6'>

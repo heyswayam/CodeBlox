@@ -55,7 +55,7 @@ export default function Header() {
 									</Link>
 								</li>
 								<li>
-									<Link to='/all-post' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
+									<Link to='/all-posts' className='text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75' href='#'>
 										All Posts
 									</Link>
 								</li>
@@ -115,7 +115,7 @@ export default function Header() {
 											</li>
 											<li>
 												<Link
-													to='/all-post'
+													to='/all-posts'
 													onClick={() => setIsOpen(!isOpen)}
 													className='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition hover:text-gray-500/75 dark:hover:bg-gray-800 dark:text-white dark:hover:text-white/75'
 													href='#'
