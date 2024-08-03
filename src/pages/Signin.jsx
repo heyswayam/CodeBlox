@@ -35,7 +35,7 @@ function Signin() {
 			// .then((e) => authService.getCurrUser())
 			.catch((e) => {
 				console.log("Sign-in error:", e);
-				alert(e.message);
+				// alert(e.message);
 				setError(e.message);
 			})
 			.finally(() => {
