@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import authService from "../appwrite/authService";
 import { login } from "../context/authSlice";
 import { setLoader } from "../context/loaderSlice";
@@ -9,7 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 function Signin() {
 	const loading = useSelector((state) => state.loading.loader);
 	const [error, setError] = useState("");
-	// const errorRef = useRef("");
+
 	const dispatch = useDispatch();
 	const {
 		register,
@@ -19,32 +19,30 @@ function Signin() {
 	const navigate = useNavigate();
 	const [passwordVisible, setPasswordVisible] = useState(false);
 
-	const handlePasswordVisibility = useCallback(() => {
+	const handlePasswordVisibility = () => {
 		setPasswordVisible((prev) => !prev);
-	}, []);
+	};
 
 	const onSubmit = (data) => {
 		authService
-			.signIn(data)
-			.then((userData) => {
-				dispatch(setLoader(true));
-
-				dispatch(login(userData));
+		.signIn(data)
+		.then((userData) => {
+			dispatch(login(userData));
+			/////////////////*******************************/////////////////*******************************
+			dispatch(setLoader(true)); // the setError was not working shown becoz i was putting dispatch before authService. so it was kind of refreshing
 			})
-			.then((e) => authService.getCurrUser())
+			/////////////////*******************************/////////////////*******************************
+			// .then((e) => authService.getCurrUser())
 			.catch((e) => {
 				console.log("Sign-in error:", e);
 				alert(e.message);
 				setError(e.message);
 			})
-			.finally(() => dispatch(setLoader(false)));
+			.finally(() => {
+				// navigate("/all-posts"); this is automatically managed in auth
+				dispatch(setLoader(false));
+			});
 	};
-
-	// useEffect(() => {
-	// 	if (errorRef.current) {
-	// 		setError(errorRef.current);
-	// 	}
-	// }, [errorRef.current]);
 
 	useEffect(() => {
 		console.log("Error state updated:", error);

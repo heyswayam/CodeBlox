@@ -21,9 +21,9 @@ so, using use
 
 	useEffect(() => {
 		// dispatch(setLoader(true));
-		if (!authStatus && location.pathname !== "/signin") navigate("/signup");
-		if (!authStatus && location.pathname !== "/signup") navigate("/signin");
-
+		// if (!authStatus && location.pathname !== "/signin") navigate("/signup");
+		if (!authStatus && location.pathname === "/all-posts") navigate("/signin");
+		if(authStatus && (location.pathname === "/signin" || location.pathname === "/signup") ) navigate("/all-posts");
 		// else if (authStatus) navigate("/");
 		// dispatch(setLoader(false));
 	}, [authStatus, navigate]);
