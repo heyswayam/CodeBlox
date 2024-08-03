@@ -11,22 +11,31 @@ export default function PostForm({ post }) {
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
 	const [imgsrc, setImgsrc] = useState("");
+	const [isPrivate, setIsPrivate] = useState(post?.status || "public");
 
+	const handleCheckboxChange = (e) => {
+		const newStatus = e.target.checked ? "public" : "private";
+		setIsPrivate(newStatus);
+		setValue("status", newStatus);
+	};
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
 			// slug: post?.$id || "",
 			content: post?.content || "check code: postForm.jsx value of content cant be retreived ",
-			status: post?.status || "active",
+			status: post?.status || "private",
 		},
 	});
 	const content = getValues("content"); //just using getValues automatically adds the values of RTE into the data object of
 
 	useEffect(() => {
 		if (post) {
+			console.log("post status"+post.status);
+			
 			setValue("title", post.title);
 			setValue("content", post.content);
-			setValue("status", post.status);
+			// setValue("status", post.status);
+			// setIsPrivate(post.status);
 			postService.getFilePreview(post.postImageId).then((e) => {
 				setImgsrc(e);
 			});
@@ -34,6 +43,9 @@ export default function PostForm({ post }) {
 	}, [post, setValue]);
 	const submit = async (data) => {
 		setLoading(true);
+		
+		data.status = data.status ? "public" : "private"; //changing data.status coz checkbox returns only boolean
+		console.log(data);
 		// console.log("userkaData" + userData.$id);
 		if (post) {
 			const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
@@ -41,9 +53,12 @@ export default function PostForm({ post }) {
 			if (file) {
 				postService.deleteFile(post.postImageId);
 			}
-			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId }).then((dbPost) => {navigate(`/post/${dbPost.$id}`);});
+			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId }).then((dbPost) => {
+				navigate(`/post/${dbPost.$id}`);
+			});
 			setLoading(false);
-			alert("successfull_post_edited");
+			console.log("successfull_post_edited");
+			// alert("successfull_post_edited");
 			navigate("/all-posts");
 		} else {
 			const file = await postService.uploadFile(data.postImage[0]);
@@ -55,7 +70,8 @@ export default function PostForm({ post }) {
 					navigate(`/post/${dbPost.$id}`);
 				});
 				setLoading(false);
-				alert("successfull");
+				// alert("successfull");
+				console.log("post added successfully");
 			}
 		}
 		setLoading(false);
@@ -83,17 +99,16 @@ export default function PostForm({ post }) {
 									</label>
 									<input {...register("title", { required: !post })} className='w-full rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 dark:text-gray-50' placeholder='Title' type='text' id='title' />
 								</div>
-
 								<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
 									<div>
 										<label
-											htmlFor='Option1'
-											className='block w-full cursor-pointer rounded-lg border border-gray-300 dark:border-gray-700 p-3 text-gray-600 dark:text-gray-50 hover:border-black dark:hover:border-white has-[:checked]:border-black dark:has-[:checked]:border-white has-[:checked]:bg-black dark:has-[:checked]:bg-gray-300 has-[:checked]:text-white dark:has-[:checked]:text-black'
-											tabIndex='0'
+											htmlFor='status'
+											className={`block w-full cursor-pointer rounded-lg border border-gray-300 dark:border-gray-700 p-3 text-gray-600 dark:text-gray-50 hover:border-black dark:hover:border-white ${
+												isPrivate === "private" ? "bg-blue-500/50 text-white" : "bg-green-500/50 text-white"
+											}`}
 										>
-											<input {...register("status", { required: !post })} className='sr-only' id='Option1' type='radio' tabIndex='-1' />
-
-											<span className='text-sm'> Option 1 </span>
+											<input {...register("status")} id='status' type='checkbox' checked={isPrivate === "public"} onClick={handleCheckboxChange} />
+											<span className='text-sm'>{isPrivate === "private" ? "Private" : "Public"}</span>
 										</label>
 									</div>
 								</div>

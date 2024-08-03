@@ -82,7 +82,7 @@ class PostService {
 			return await this.databases.listDocuments(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-                // [Query.equal('index_key', 'on')] //querry commented temporarily
+                [Query.equal('status', 'public')] //querry commented temporarily
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: listPosts :: error ::", error);
