@@ -34,6 +34,7 @@ export default function PostForm({ post }) {
 			
 			setValue("title", post.title);
 			setValue("content", post.content);
+
 			// setValue("status", post.status);
 			// setIsPrivate(post.status);
 			postService.getFilePreview(post.postImageId).then((e) => {
@@ -65,7 +66,7 @@ export default function PostForm({ post }) {
 			if (file) {
 				const imageId = file.$id;
 				const { postImage, ...restData } = data; // Destructure to exclude postImage
-				postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id }).then((dbPost) => {
+				postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, author:userData.name }).then((dbPost) => {
 					// console.log(dbPost);
 					navigate(`/post/${dbPost.$id}`);
 				});
@@ -107,7 +108,7 @@ export default function PostForm({ post }) {
 												isPrivate === "private" ? "bg-blue-500/50 text-white" : "bg-green-500/50 text-white"
 											}`}
 										>
-											<input {...register("status")} id='status' type='checkbox' checked={isPrivate === "public"} onClick={handleCheckboxChange} />
+											<input {...register("status")} id='status' type='checkbox' checked={isPrivate === "public"}  onClick={handleCheckboxChange} />
 											<span className='text-sm'>{isPrivate === "private" ? "Private" : "Public"}</span>
 										</label>
 									</div>

@@ -14,7 +14,7 @@ class PostService {
         this.storage = new Storage(this.client);
 	}
 
-	async createPost({ title, content, postImageId, userId, status }) {
+	async createPost({ title, content, postImageId, userId, status,author }) {
 		try {
 			return await this.databases.createDocument(
 				conf_env.databaseId, // databaseId
@@ -27,6 +27,7 @@ class PostService {
 					postImageId,
 					userId,
 					status,
+					author,
 				} // queries 
 			);
 		} catch (error) {
