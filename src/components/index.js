@@ -7,7 +7,7 @@ import Card from "./Card";
 import Dropdown from "./Dropdown";
 import RTE from "./RTE";
 import PostForm from "./PostForm";
-import MetaDecorator from "./Metadecorator";
+import MetaDecorator from "./MetaDecorator";
 import AuthLayout from "../components/AuthLayout"
 export { ThemeBtn, Header, Footer,Container, Error,Card,Dropdown,RTE,PostForm,AuthLayout,MetaDecorator };
 //removed Input
