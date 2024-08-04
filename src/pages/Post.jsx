@@ -16,7 +16,7 @@ export default function Post() {
 	const isAuthor = post && userData ? post.userId === userData.$id : false;
 	const truncateHTML = (html) => {	//have hardcoded charLimit = 50
 		const text = html.replace(/<[^>]+>|&nbsp;|&[a-zA-Z]+;/g, ""); // Remove HTML tags and HTML entities like &nbsp; &amp;, &lt;, &gt;
-		return text.length > 50 ? text.slice(0, 50) + "..." : text;
+		return text.length > 90 ? text.slice(0, 90) + "..." : text;
 	};
 	useEffect(() => {
 		if (slug) {
@@ -56,7 +56,7 @@ export default function Post() {
 	},[post])
 	return loading === false && post ? (
 		<>
-			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} />
+			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} siteUrl={window.location.href} />
 			<div className='py-8 px-4 max-w-3xl mx-auto flex flex-col'>
 				<div className='w-full mb-6 flex flex-col '>
 					<h1 className='text-5xl font-bold text-left text-[#c7d3e0]'>{post.title}</h1>
