@@ -5,7 +5,7 @@ import { setLoader } from "../context/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import {toast} from 'sonner';
+import { toast } from "sonner";
 function Signin() {
 	const loading = useSelector((state) => state.loading.loader);
 	// const [error, setError] = useState("");
@@ -25,22 +25,24 @@ function Signin() {
 
 	const onSubmit = async (data) => {
 		try {
-			dispatch(setLoader(true))
-			const userData = await authService.signIn(data);
+			dispatch(setLoader(true));
+			const signIn = await authService.signIn(data);
+			const userData = await authService.getCurrUser();
 			dispatch(login(userData));
-			console.log(userData);
-			
-			toast.success('Sign in successfull!',{
-				position:"bottom-right"
-			})
-			dispatch(setLoader(false))
+			// dispatch(login(userData));
+			// console.log(userData);
+			toast.success("Sign in successfull!", {
+				position: "bottom-right",
+			});
+			navigate("/all-posts");
+			dispatch(setLoader(false));
 		} catch (e) {
-			toast.error("Sign-in error: " + e.message ,{
-				position:"bottom-right"
-			})
+			toast.error("Sign-in error: " + e.message, {
+				position: "bottom-right",
+			});
 			// console.log(e.message);
-			
-			dispatch(setLoader(false))
+
+			dispatch(setLoader(false));
 			// setError(e.message);// removed the error box on the top of signin page
 		}
 		// authService
