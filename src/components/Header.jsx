@@ -8,9 +8,9 @@ import { setLoader } from "../context/loaderSlice";
 
 export default function Header() {
 	const loading = useSelector((state) => state.loading.loader);
-	console.log("loading: " + loading);
+	// console.log("loading: " + loading);
 	const authStatus = useSelector((state) => state.auth.status);
-	console.log("auth: " + authStatus);
+	// console.log("auth: " + authStatus);
 	const location = useLocation();
 	// const userData = useSelector((state)=>state.auth.userData)
 	// const loggedinUser = userData.name || "";

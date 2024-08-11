@@ -23,23 +23,21 @@ function Signin() {
 		setPasswordVisible((prev) => !prev);
 	};
 
-	const onSubmit = async (data) => {
-		dispatch(setLoader(true)); 
-		try {
-			const userData = await authService.signIn(data);
-			dispatch(login(userData));
-		} catch (e) {
-			console.log("Sign-in error:", e);
-			// alert(e.message);
-			setError(e.message);
-		}
-		dispatch(setLoader(false));
-
+	const onSubmit = (data) => {
+		authService
+			.signIn(data)
+			.then((userData) => dispatch(login(userData)))
+			.catch((e) => {
+				// console.log("Sign-in error:", e);
+				// alert(e.message);
+				setError(e.message);
+			})
+			.finally(dispatch(setLoader(false)));
 	};
 
-	useEffect(() => {
-		console.log("Error state updated:", error);
-	}, [error]);
+	// useEffect(() => {
+	// 	console.log("Error state updated:", error);
+	// }, [error]);
 
 	return (
 		<div className='mx-auto max-w-screen-xl px-4 pt-16 sm:px-6 lg:px-8 dark:bg-accent-50'>

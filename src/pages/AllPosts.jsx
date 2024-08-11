@@ -11,7 +11,7 @@ export default function AllPosts() {
 	const [loading, setLoading] = useState(true);
 
 	const fetchPosts = useCallback(async () => {
-		console.log("started fetchPosts");
+		// console.log("started fetchPosts");
 		// dispatch(setLoader(true));
 		try {
 			const postList = await postService.listPosts();
@@ -21,7 +21,7 @@ export default function AllPosts() {
 		} catch (error) {
 			console.error("Error fetching posts:", error);
 		} finally {
-			console.log("ended fetchPosts");
+			// console.log("ended fetchPosts");
 			// dispatch(setLoader(false));
 			setLoading(false);
 		}

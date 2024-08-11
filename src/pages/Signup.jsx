@@ -43,9 +43,9 @@ function Signup() {
 			.finally(dispatch(setLoader(false)));
 	};
 
-	useEffect(() => {
-		console.log(error);
-	}, [error]);
+	// useEffect(() => {
+	// 	console.log(error);
+	// }, [error]);
 
 	return (
 		// <section className='bg-white dark:bg-gray-900'>

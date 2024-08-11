@@ -42,18 +42,18 @@ export default function Post() {
 	const deletePost = () => {
 		postService.deletePost(post.$id).then((status) => {
 			if (status) {
-				console.log(post.postImageId);
+				// console.log(post.postImageId);
 				postService.deleteFile(post.postImageId);
 				navigate("/all-posts");
 			}
 		});
 	};
-	useEffect(()=>{
-		console.log(post);
+	// useEffect(()=>{
+	// 	console.log(post);
 
 		
 		
-	},[post])
+	// },[post])
 	return loading === false && post ? (
 		<>
 			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} siteUrl={window.location.href} />

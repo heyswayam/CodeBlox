@@ -15,7 +15,7 @@ export default function RTE({ name, control }) {
 		apiKey={conf_env.tinyMCEId}
           onEditorChange={onChange}
           value={value}
-          initialValue={value ||'This is the initial content of the editor.'}
+          // initialValue={value}
           init={{
             skin: theme==="dark"?"oxide-dark":"oxide",
             height: 500,

@@ -10,7 +10,7 @@ export default function PostForm({ post }) {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
-	const [imgsrc, setImgsrc] = useState("");
+	// const [imgsrc, setImgsrc] = useState("");	//it wasn't doing any thing but too scared to delete it lol
 	const [mode, setMode] = useState(post?.status || "public");
 	const [dragActive, setDragActive] = useState(false);
 	const [previewImage, setPreviewImage] = useState(null);
@@ -19,27 +19,27 @@ export default function PostForm({ post }) {
 		const newMode = mode === "public" ? "private" : "public";
 		setMode(newMode);
 		setValue("status", newMode);
-		console.log("New mode:", newMode);
+		// console.log("New mode:", newMode);
 	};
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
-			content: post?.content || " ",
+			content: post?.content || "This is the initial content of the editor. ",
 			status: post?.status || mode,
 		},
 	});
-	const content = getValues("content");
+	const content = getValues("content"); //just using getValues automatically adds the values of RTE into the data object of
 
 	useEffect(() => {
 		if (post) {
-			console.log("post status: " + post.status);
+			// console.log("post status: " + post.status);
 			setValue("title", post.title);
 			setValue("content", post.content);
 			setValue("status", post.status);
 			setMode(post.status);
 			postService.getFilePreview(post.postImageId).then((e) => {
-				setImgsrc(e);
-				setPreviewImage(e);
+				// setImgsrc(e); 	//it wasn't doing any thing but too scared to delete it lol
+				setPreviewImage(e); 
 			});
 		}
 	}, [post, setValue]);
@@ -81,18 +81,19 @@ export default function PostForm({ post }) {
 
 	const submit = async (data) => {
 		setLoading(true);
-		console.log(data);
+		// console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
+		data.status = data.status ? "public" : "private";
 		if (post) {
 			const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
-			console.log(post);
+			// console.log(post);
 			if (file) {
 				postService.deleteFile(post.postImageId);
 			}
-			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId }).then((dbPost) => {
+			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId, }).then((dbPost) => {
 				navigate(`/post/${dbPost.$id}`);
 			});
 			setLoading(false);
-			console.log("successfull_post_edited");
+			// console.log("successfull_post_edited");
 			navigate("/all-posts");
 		} else {
 			const file = await postService.uploadFile(data.postImage[0]);
@@ -103,7 +104,7 @@ export default function PostForm({ post }) {
 					navigate(`/post/${dbPost.$id}`);
 				});
 				setLoading(false);
-				console.log("post added successfully");
+				// console.log("post added successfully");
 			}
 		}
 		setLoading(false);
