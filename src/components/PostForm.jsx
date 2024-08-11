@@ -24,7 +24,7 @@ export default function PostForm({ post }) {
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
-			content: post?.content || "check code: postForm.jsx value of content cant be retreived ",
+			content: post?.content || " ",
 			status: post?.status || mode,
 		},
 	});
