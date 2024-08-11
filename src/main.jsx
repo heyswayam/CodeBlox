@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Error } from "./components/index.js";
 import { Provider } from "react-redux";
@@ -81,6 +82,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<Provider store={store}>
 		<RouterProvider router={router} />
 		<SpeedInsights/>
+		<Analytics />
 	</Provider>,
 	// </React.StrictMode>,
 );
