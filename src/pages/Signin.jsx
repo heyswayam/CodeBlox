@@ -23,25 +23,18 @@ function Signin() {
 		setPasswordVisible((prev) => !prev);
 	};
 
-	const onSubmit = (data) => {
-		authService
-		.signIn(data)
-		.then((userData) => {
+	const onSubmit = async (data) => {
+		dispatch(setLoader(true)); 
+		try {
+			const userData = await authService.signIn(data);
 			dispatch(login(userData));
-			/////////////////*******************************/////////////////*******************************
-			dispatch(setLoader(true)); // the setError was not working shown becoz i was putting dispatch before authService. so it was kind of refreshing
-			})
-			/////////////////*******************************/////////////////*******************************
-			// .then((e) => authService.getCurrUser())
-			.catch((e) => {
-				console.log("Sign-in error:", e);
-				// alert(e.message);
-				setError(e.message);
-			})
-			.finally(() => {
-				// navigate("/all-posts"); this is automatically managed in auth
-				dispatch(setLoader(false));
-			});
+		} catch (e) {
+			console.log("Sign-in error:", e);
+			// alert(e.message);
+			setError(e.message);
+		}
+		dispatch(setLoader(false));
+
 	};
 
 	useEffect(() => {
@@ -49,15 +42,15 @@ function Signin() {
 	}, [error]);
 
 	return (
-		<div className='mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 dark:bg-gray-800'>
+		<div className='mx-auto max-w-screen-xl px-4 pt-16 sm:px-6 lg:px-8 dark:bg-accent-50'>
 			<div className='mx-auto max-w-lg my-10 text-center'>
-				<h1 className='mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white'>
+				<h1 className='mt-6 text-xl leading-tight font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white'>
 					Welcome to <span className='font-mono font-thin'>CodeBlox</span>
 				</h1>
 
 				<p className='mx-auto mt-4 max-w-md text-center text-gray-500 dark:text-gray-300'>Our promise to you: we'll keep your account safe, unless you use a password like 'password123'?</p>
 
-				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700'>
+				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
 					<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
 
 					{error && (
@@ -94,12 +87,12 @@ function Signin() {
 						</div>
 					</div>
 
-					<button type='submit' className='block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white dark:bg-indigo-500' disabled={loading}>
+					<button type='submit' className='block w-full rounded-lg bg-secondary px-5 py-3 text-sm font-medium text-white' disabled={loading}>
 						{loading ? "Signing in..." : "Sign in"}
 					</button>
 
 					<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
-						No account?
+						Don't have an account?
 						<Link to='/signup' className='underline dark:text-indigo-400'>
 							{" "}
 							Sign up

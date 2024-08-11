@@ -2,7 +2,10 @@ import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from 'react-hook-form';
 import conf_env from "../conf_env/conf_env";
+import { useSelector } from "react-redux";
 export default function RTE({ name, control }) {
+	const theme = useSelector((state) => state.theme.mode);
+
   return (
     <Controller
       name={name}
@@ -12,11 +15,9 @@ export default function RTE({ name, control }) {
 		apiKey={conf_env.tinyMCEId}
           onEditorChange={onChange}
           value={value}
-          initialValue='
-This is the initial content of the editor.
-'
+          initialValue={value ||'This is the initial content of the editor.'}
           init={{
-            skin: "oxide-dark",
+            skin: theme==="dark"?"oxide-dark":"oxide",
             height: 500,
             menubar: false,
             plugins: ["advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor", "searchreplace", "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "code", "help", "wordcount"],

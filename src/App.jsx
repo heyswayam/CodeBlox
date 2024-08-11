@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation } from "react-router-dom";
 
 import authService from "./appwrite/authService";
 import { login, logout } from "./context/authSlice";
 import { setLoader } from "./context/loaderSlice";
 
-import { Header, Footer, Card, Dropdown,RTE, PostForm  } from "./components/index";
+import { Header, Footer, Card, Dropdown, RTE, PostForm } from "./components/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
-	const loading = useSelector((state)=>state.loading.loader)
+	const loading = useSelector((state) => state.loading.loader);
+	const theme = useSelector((state) => state.theme.mode);
+	const location = useLocation();
+
 	const dispatch = useDispatch();
 	//logged in or not
 	useEffect(() => {
@@ -28,23 +32,22 @@ function App() {
 				// console.log('\n'.repeat('25'));
 			})
 			.finally(() => {
-				dispatch(setLoader(false))
+				dispatch(setLoader(false));
 			});
 	}, []);
 
-	return loading === false ? (
-		<div className="flex flex-col min-h-screen">
+	return (
+		<div className='flex flex-col min-h-screen'>
 			<Header />
-			<main className="flex-grow">
-				{/* Your main content goes here */}
-				<Outlet/>
+			<main className='flex-grow'>
+				{loading && (
+					<div className='flex flex-col h-screen justify-center items-center  bg-background overflow-hidden'>
+						<PulseLoader color='#7850de' size={15} />
+					</div>
+				)}
+				{!loading && <Outlet/>}
 			</main>
-			<Footer />
-		</div>
-	) : (
-		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
-			<PulseLoader color='#367bd6' size={15} />
-			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Good things takes time.....🧑‍🍳</div>
+			{location.pathname !== '/' && <Footer />}
 		</div>
 	);
 }

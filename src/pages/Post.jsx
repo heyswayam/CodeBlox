@@ -59,8 +59,8 @@ export default function Post() {
 			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} siteUrl={window.location.href} />
 			<div className='py-8 px-4 max-w-3xl mx-auto flex flex-col'>
 				<div className='w-full mb-6 flex flex-col '>
-					<h1 className='text-5xl font-bold text-left text-[#c7d3e0]'>{post.title}</h1>
-					<p className='text-md self-end  text-[#9daec1]'>- {post.author}</p>
+					<p className='text-5xl text-center font-heading font-bold text-text '>{post.title}</p>
+					<p className='text-md self-end text-text'>- {post.author}</p>
 				</div>
 				{isAuthor && (
 					<div className=' flex space-x-2 self-end mb-3'>
@@ -78,13 +78,12 @@ export default function Post() {
 					{/* </div> */}
 				</div>
 
-				<div className='w-full prose max-w-none text-[#a8b9c4]'>{parse(post.content)}</div>
+				<div className='w-full leading-loose max-w-none text-text font-sw font-body'>{parse(post.content)}</div>
 			</div>
 		</>
 	) : (
-		<div className='flex flex-col h-screen justify-center items-center bg-[#111827]'>
-			<PulseLoader color='#367bd6' size={15} />
-			<div className='font-medium text-2xl text-[#367bd6] mt-5'>Good things takes time.....🧑‍🍳</div>
+		<div className='flex flex-col h-screen justify-center items-center  bg-background'>
+			<PulseLoader color='#7850de' size={15} />
 		</div>
 	);
 }
