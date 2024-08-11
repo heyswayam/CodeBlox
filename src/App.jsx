@@ -7,7 +7,7 @@ import authService from "./appwrite/authService";
 import { login, logout } from "./context/authSlice";
 import { setLoader } from "./context/loaderSlice";
 
-import { Header, Footer, Card, Dropdown, RTE, PostForm } from "./components/index";
+import { Header, Footer, Card, Dropdown, RTE, PostForm, MetaDecorator } from "./components/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
 
 	return (
 		<div className='flex flex-col min-h-screen'>
+			<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />
 			<Toaster theme={theme} richColors closeButton={true}/>
 			<Header />
 			<main className='flex-grow'>

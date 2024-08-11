@@ -3,7 +3,7 @@ import postService from "../appwrite/postService";
 // import { useDispatch, useSelector } from "react-redux";
 // import { setLoader } from "../context/loaderSlice";
 import PulseLoader from "react-spinners/PulseLoader";
-import { Card, Dropdown } from "../components/index";
+import { Card, Dropdown, MetaDecorator } from "../components/index";
 export default function AllPosts() {
 	const [posts, setPosts] = useState([]);
 	// const loading = useSelector((state) => state.loading.loader);
@@ -33,6 +33,7 @@ export default function AllPosts() {
 
 	return loading === false ? (
 		<div className='flex '>
+						<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />
 			<div className='w-5/6 mx-auto grid grid-cols-1 gap-20 pt-10 lg:grid-cols-3 sm:grid-cols-2'>
 				{posts.map((item) => {
 					// console.log(item); // log the $id of each item
