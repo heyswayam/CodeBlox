@@ -113,9 +113,9 @@ export default function Header() {
 									<path strokeLinecap='round' strokeLinejoin='round' d='M4 6h16M4 12h16M4 18h16' />
 								</svg>
 							</button>
-							<div className='block  lg:hidden'>
+							<div className='block  lg:hidden '>
 								{isOpen && (
-									<div className={`absolute top-16 right-0 bg-white/30 dark:bg-gray-900/30 p-4 w-full transition duration-300 ease-in-out backdrop-blur-md {${isOpen}? '-translate-y-60' :' -translate-y-3'`}>
+									<div className={" absolute top-16 right-0 bg-white/30 dark:bg-gray-900/30 p-4 w-full transition duration-300 ease-in-out backdrop-blur-md -translate-y-3 "}>
 										<ul>
 											<li>
 												<Link
