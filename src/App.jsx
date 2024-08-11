@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { Toaster } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 
@@ -38,6 +38,7 @@ function App() {
 
 	return (
 		<div className='flex flex-col min-h-screen'>
+			<Toaster theme={theme} richColors closeButton={true}/>
 			<Header />
 			<main className='flex-grow'>
 				{loading && (
@@ -45,9 +46,9 @@ function App() {
 						<PulseLoader color='#7850de' size={15} />
 					</div>
 				)}
-				{!loading && <Outlet/>}
+				{!loading && <Outlet />}
 			</main>
-			{location.pathname !== '/' && <Footer />}
+			{location.pathname !== "/" && <Footer />}
 		</div>
 	);
 }

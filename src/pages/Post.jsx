@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import postService from "../appwrite/postService";
 import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PulseLoader from "react-spinners/PulseLoader";
 import { MetaDecorator } from "../components/index";
+import { toast } from "sonner";
+import { setLoader } from "../context/loaderSlice";
+
 export default function Post() {
 	const [post, setPost] = useState(null);
 	const [imgsrc, setImgsrc] = useState("");
@@ -12,9 +15,10 @@ export default function Post() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const userData = useSelector((state) => state.auth.userData);
-
+	const dispatch = useDispatch();
 	const isAuthor = post && userData ? post.userId === userData.$id : false;
-	const truncateHTML = (html) => {	//have hardcoded charLimit = 50
+	const truncateHTML = (html) => {
+		//have hardcoded charLimit = 50
 		const text = html.replace(/<[^>]+>|&nbsp;|&[a-zA-Z]+;/g, ""); // Remove HTML tags and HTML entities like &nbsp; &amp;, &lt;, &gt;
 		return text.length > 90 ? text.slice(0, 90) + "..." : text;
 	};
@@ -39,20 +43,33 @@ export default function Post() {
 		}
 	}, [slug, navigate]);
 
-	const deletePost = () => {
-		postService.deletePost(post.$id).then((status) => {
+	const deletePost = async() => {
+		try {
+			dispatch(setLoader(true));
+			const status = await postService.deletePost(post.$id);
 			if (status) {
-				// console.log(post.postImageId);
-				postService.deleteFile(post.postImageId);
+				
+				await postService.deleteFile(post.postImageId);
+				toast.success("Post deleted successfully", {
+					position: "bottom-right",
+				});
+			dispatch(setLoader(false));
+
 				navigate("/all-posts");
+			} else {
+				toast.error("Failed to delete post", {
+					position: "bottom-right",
+				});
 			}
-		});
+		} catch (e) {
+			toast.error("Error deleting post: " + e.message, {
+				position: "bottom-right",
+			});
+			dispatch(setLoader(false));
+		}
 	};
 	// useEffect(()=>{
 	// 	console.log(post);
-
-		
-		
 	// },[post])
 	return loading === false && post ? (
 		<>

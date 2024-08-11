@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import postService from "../appwrite/postService";
 import { useForm } from "react-hook-form";
 import { PulseLoader } from "react-spinners";
+import { toast } from "sonner";
 
 export default function PostForm({ post }) {
 	const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function PostForm({ post }) {
 			setMode(post.status);
 			postService.getFilePreview(post.postImageId).then((e) => {
 				// setImgsrc(e); 	//it wasn't doing any thing but too scared to delete it lol
-				setPreviewImage(e); 
+				setPreviewImage(e);
 			});
 		}
 	}, [post, setValue]);
@@ -84,30 +85,56 @@ export default function PostForm({ post }) {
 		// console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
 		data.status = data.status ? "public" : "private";
 		if (post) {
-			const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
-			// console.log(post);
-			if (file) {
-				postService.deleteFile(post.postImageId);
-			}
-			postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId, }).then((dbPost) => {
-				navigate(`/post/${dbPost.$id}`);
-			});
-			setLoading(false);
-			// console.log("successfull_post_edited");
-			navigate("/all-posts");
-		} else {
-			const file = await postService.uploadFile(data.postImage[0]);
-			if (file) {
-				const imageId = file.$id;
-				const { postImage, ...restData } = data;
-				postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, author: userData.name }).then((dbPost) => {
+			try {
+				setLoading(true);
+
+				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
+				// console.log(post);
+				if (file) {
+					postService.deleteFile(post.postImageId);
+				}
+				postService.updatePost({ documentId: post.$id, ...data, postImageId: file ? file.$id : post.postImageId }).then((dbPost) => {
+					toast.success("Post edited successfully", {
+						position: "bottom-right",
+					});
+					setLoading(false);
+
 					navigate(`/post/${dbPost.$id}`);
 				});
+
+			} catch (e) {
+				toast.error("Error updating post: " + e.message, {
+					position: "bottom-right",
+				});
+				dispatch(setLoader(false));
+				navigate("/all-posts");
 				setLoading(false);
-				// console.log("post added successfully");
+
+			}
+			// console.log("successfull_post_edited");
+		} else {
+			try {
+				const file = await postService.uploadFile(data.postImage[0]);
+				if (file) {
+					const imageId = file.$id;
+					const { postImage, ...restData } = data;
+					postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, author: userData.name }).then((dbPost) => {
+						navigate(`/post/${dbPost.$id}`);
+					});
+					toast.success("Post added successfully", {
+						position: "bottom-right",
+					});
+					setLoading(false);
+					// console.log("post added successfully");
+				}
+			} catch (e) {
+				toast.error("Error creating post: " + e.message, {
+					position: "bottom-right",
+				});
+
+				dispatch(setLoader(false));
 			}
 		}
-		setLoading(false);
 	};
 
 	return loading === false ? (
@@ -132,34 +159,34 @@ export default function PostForm({ post }) {
 								</div>
 							</div>
 							<div>
-							<div className='flex items-center justify-center w-full'>
-								<label
-									htmlFor='dropzone-file'
-									className={`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 ${
-										dragActive ? "border-blue-500" : ""
-									}`}
-									onDragEnter={handleDrag}
-									onDragLeave={handleDrag}
-									onDragOver={handleDrag}
-									onDrop={handleDrop}
-								>
-									{previewImage ? (
-										<img src={previewImage} alt="Preview" className="max-h-full max-w-full object-contain" />
-									) : (
-										<div className='flex flex-col items-center justify-center pt-5 pb-6'>
-											<svg className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 16'>
-												<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2' />
-											</svg>
-											<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
-												<span className='font-semibold'>Click to upload</span> or drag and drop
-											</p>
-											<p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-										</div>
-									)}
-									<input id='dropzone-file' type='file' className='hidden' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage")} onChange={handleChange} />
-								</label>
+								<div className='flex items-center justify-center w-full'>
+									<label
+										htmlFor='dropzone-file'
+										className={`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 ${
+											dragActive ? "border-blue-500" : ""
+										}`}
+										onDragEnter={handleDrag}
+										onDragLeave={handleDrag}
+										onDragOver={handleDrag}
+										onDrop={handleDrop}
+									>
+										{previewImage ? (
+											<img src={previewImage} alt='Preview' className='max-h-full max-w-full object-contain' />
+										) : (
+											<div className='flex flex-col items-center justify-center pt-5 pb-6'>
+												<svg className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 16'>
+													<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2' />
+												</svg>
+												<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
+													<span className='font-semibold'>Click to upload</span> or drag and drop
+												</p>
+												<p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+											</div>
+										)}
+										<input id='dropzone-file' type='file' className='hidden' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage")} onChange={handleChange} />
+									</label>
+								</div>
 							</div>
-						</div>
 							<div>
 								<RTE name='content' control={control} />
 							</div>
@@ -175,7 +202,7 @@ export default function PostForm({ post }) {
 			</form>
 		</>
 	) : (
-		<div className='flex flex-col h-screen justify-center items-center dark:bg-[#111827]'>
+		<div className='flex flex-col h-screen justify-center items-center bg-background'>
 			<PulseLoader color='#7850de' size={15} />
 		</div>
 	);

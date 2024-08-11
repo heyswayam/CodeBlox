@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import authService from "../appwrite/authService";
 import { login, logout } from "../context/authSlice";
 import { setLoader } from "../context/loaderSlice";
+import { toast } from "sonner";
 
 export default function Header() {
 	const loading = useSelector((state) => state.loading.loader);
@@ -28,11 +29,22 @@ export default function Header() {
 
 	const navigate = useNavigate();
 	const handleLogout = async () => {
-		dispatch(setLoader(true));
-		await authService.logout();
-		dispatch(logout());
-		dispatch(setLoader(false));
-		navigate("/");
+		try {
+			dispatch(setLoader(true));
+			await authService.logout();
+			dispatch(logout());
+
+			toast.success("Logged out successfully!", {
+				position: "bottom-right",
+			});
+			dispatch(setLoader(false));
+			navigate("/");
+		} catch (e) {
+			toast.error("Logout error: " + e.message ,{
+				position:"bottom-right"
+			})
+			dispatch(setLoader(false));
+		}
 	};
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -50,14 +62,14 @@ export default function Header() {
 					<div className='md:flex md:items-center flex md:justify-between justify-end w-7/12 md:gap-12'>
 						<nav aria-label='Global' className='hidden md:block'>
 							<ul className='flex items-center gap-6 text-sm'>
-							{/* the hovering underline effect's css is inside index.css do not mess with it */}
+								{/* the hovering underline effect's css is inside index.css do not mess with it */}
 								<li>
-									<Link to='/' className={`transition  link-with-underline $nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+									<Link to='/' className={`transition  link-with-underline $nav-link ${location.pathname === "/" ? "active" : ""}`}>
 										Home
 									</Link>
 								</li>
 								<li>
-									<Link to='/all-posts' className={` transition link-with-underline $nav-link ${location.pathname === '/all-posts' ? 'active' : ''}`}>
+									<Link to='/all-posts' className={` transition link-with-underline $nav-link ${location.pathname === "/all-posts" ? "active" : ""}`}>
 										All Posts
 									</Link>
 								</li>

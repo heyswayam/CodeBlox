@@ -5,10 +5,10 @@ import { setLoader } from "../context/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-
+import {toast} from 'sonner';
 function Signin() {
 	const loading = useSelector((state) => state.loading.loader);
-	const [error, setError] = useState("");
+	// const [error, setError] = useState("");
 
 	const dispatch = useDispatch();
 	const {
@@ -23,16 +23,39 @@ function Signin() {
 		setPasswordVisible((prev) => !prev);
 	};
 
-	const onSubmit = (data) => {
-		authService
-			.signIn(data)
-			.then((userData) => dispatch(login(userData)))
-			.catch((e) => {
-				// console.log("Sign-in error:", e);
-				// alert(e.message);
-				setError(e.message);
+	const onSubmit = async (data) => {
+		try {
+			dispatch(setLoader(true))
+			const userData = await authService.signIn(data);
+			dispatch(login(userData));
+			console.log(userData);
+			
+			toast.success('Sign in successfull!',{
+				position:"bottom-right"
 			})
-			.finally(dispatch(setLoader(false)));
+			dispatch(setLoader(false))
+		} catch (e) {
+			toast.error("Sign-in error: " + e.message ,{
+				position:"bottom-right"
+			})
+			// console.log(e.message);
+			
+			dispatch(setLoader(false))
+			// setError(e.message);// removed the error box on the top of signin page
+		}
+		// authService
+		// 	.signIn(data)
+		// 	.then((userData) => {dispatch(login(userData))
+		// 		toast.success('Sign in successfull!')
+		// 	})
+		// 	.catch((e) => {
+		// 		// console.log("Sign-in error:", e);
+		// 		toast.error("Sign-in error:", e.message)
+
+		// 		// alert(e.message);
+		// 		setError(e.message);
+		// 	})
+		// 	.finally(dispatch(setLoader(false)));
 	};
 
 	// useEffect(() => {
@@ -51,11 +74,11 @@ function Signin() {
 				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
 					<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
 
-					{error && (
+					{/* {error && (
 						<div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
 							<span className='block sm:inline'>{error}</span>
 						</div>
-					)}
+					)} */}
 
 					<div>
 						<label htmlFor='email' className='sr-only'>
