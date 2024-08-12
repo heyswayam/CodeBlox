@@ -35,7 +35,7 @@ export default function Post() {
 					});
 					setLoading(false);
 				} else {
-					navigate("/");
+					navigate("/all-posts");
 					setLoading(false);
 				}
 			});
@@ -54,7 +54,7 @@ export default function Post() {
 				toast.success("Post deleted successfully", {
 					position: "bottom-right",
 				});
-				navigate("/all-posts");
+				// navigate("/all-posts"); // the navigate() in the else part of the above useEffect overwrites this
 				dispatch(setLoader(false));
 			} else {
 				toast.error("Failed to delete post", {
@@ -68,9 +68,9 @@ export default function Post() {
 			dispatch(setLoader(false));
 		}
 	};
-	useEffect(() => {
-		console.log(post);
-	}, [post]);
+	// useEffect(() => {
+	// 	console.log(post);
+	// }, [post]);
 	return loading === false && post ? (
 		<>
 			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} siteUrl={window.location.href} />
@@ -87,7 +87,7 @@ export default function Post() {
 							<span className='text-md text-[#5e5e5e] dark:text-[#d5d5d5]'>{post.author}</span>
 						</div>
 						<div className='flex'>
-							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' class='lucide lucide-calendar-plus h-4 self-center'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='lucide lucide-calendar-plus h-4 self-center'>
 								<path d='M8 2v4' />
 								<path d='M16 2v4' />
 								<path d='M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8' />
@@ -98,7 +98,7 @@ export default function Post() {
 							<span className='text-md text-[#5e5e5e] dark:text-[#d5d5d5]'>{new Date(post.$createdAt).toLocaleDateString()}</span>
 						</div>
 						<div className='flex'>
-							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' class='lucide lucide-calendar-arrow-up  h-4 self-center'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='lucide lucide-calendar-arrow-up  h-4 self-center'>
 								<path d='m14 18 4-4 4 4' />
 								<path d='M16 2v4' />
 								<path d='M18 22v-8' />
