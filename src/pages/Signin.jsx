@@ -26,38 +26,20 @@ function Signin() {
 	const onSubmit = async (data) => {
 		try {
 			dispatch(setLoader(true));
-			const signIn = await authService.signIn(data);
-			const userData = await authService.getCurrUser();
-			dispatch(login(userData));
-			// dispatch(login(userData));
-			// console.log(userData);
-			toast.success("Sign in successfull!", {
+			// const signIn = await authService.signIn(data);
+			const passwordLess = await authService.passwordLessSignin(data.email);
+			console.log(passwordLess);
+			toast.success("Email sent successfully", {
 				position: "bottom-right",
 			});
-			navigate("/all-posts");
+			// navigate("/all-posts");
 			dispatch(setLoader(false));
 		} catch (e) {
 			toast.error("Sign-in error: " + e.message, {
 				position: "bottom-right",
 			});
-			// console.log(e.message);
-
 			dispatch(setLoader(false));
-			// setError(e.message);// removed the error box on the top of signin page
 		}
-		// authService
-		// 	.signIn(data)
-		// 	.then((userData) => {dispatch(login(userData))
-		// 		toast.success('Sign in successfull!')
-		// 	})
-		// 	.catch((e) => {
-		// 		// console.log("Sign-in error:", e);
-		// 		toast.error("Sign-in error:", e.message)
-
-		// 		// alert(e.message);
-		// 		setError(e.message);
-		// 	})
-		// 	.finally(dispatch(setLoader(false)));
 	};
 
 	// useEffect(() => {
@@ -66,14 +48,14 @@ function Signin() {
 
 	return (
 		<div className='mx-auto max-w-screen-xl px-4 pt-16 sm:px-6 lg:px-8 dark:bg-accent-50'>
-			<div className='mx-auto max-w-lg my-10 text-center'>
-				<h1 className='mt-6 text-xl leading-tight font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white'>
+			<div className='mx-auto max-w-lg mt-6 text-center'>
+				<h1 className='mt-5 text-xl leading-tight font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white'>
 					Welcome to <span className='font-mono font-thin'>CodeBlox</span>
 				</h1>
 
 				<p className='mx-auto mt-4 max-w-md text-center text-gray-500 dark:text-gray-300'>Our promise to you: we'll keep your account safe, unless you use a password like 'password123'?</p>
 
-				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
+				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
 					<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
 
 					{/* {error && (
@@ -119,6 +101,13 @@ function Signin() {
 						<Link to='/signup' className='underline dark:text-indigo-400'>
 							{" "}
 							Sign up
+						</Link>
+					</p>
+					<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
+						Forgot password?
+						<Link to='/email-signin' className='underline dark:text-indigo-400'>
+							{" "}
+							Get an email to signin
 						</Link>
 					</p>
 				</form>

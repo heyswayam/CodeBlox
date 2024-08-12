@@ -6,4 +6,6 @@ import AllPosts from "./AllPosts";
 import EditPost from "./Editpost";
 import Post from "./Post";
 
-export {Signin,Signup,Home,AddPost,AllPosts,EditPost,Post}
+import EmailSignin from "./EmailSignin";
+import Redirecting from "./Redirecting";
+export {Signin,Signup,Home,AddPost,AllPosts,EditPost,Post,EmailSignin,Redirecting}

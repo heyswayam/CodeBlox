@@ -53,9 +53,9 @@ export default function Post() {
 				toast.success("Post deleted successfully", {
 					position: "bottom-right",
 				});
-			dispatch(setLoader(false));
-
 				navigate("/all-posts");
+				dispatch(setLoader(false));
+
 			} else {
 				toast.error("Failed to delete post", {
 					position: "bottom-right",

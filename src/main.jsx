@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Error } from "./components/index.js";
 import { Provider } from "react-redux";
 import { store } from "./context/store.js";
-import { Signin, Signup, Home,AddPost,AllPosts,Post,EditPost } from "../src/pages/index.js";
+import { Signin, Signup, Home,AddPost,AllPosts,Post,EditPost,EmailSignin,Redirecting } from "../src/pages/index.js";
 import { AuthLayout } from "../src/components/index.js";
 
 
@@ -50,6 +50,24 @@ const router = createBrowserRouter([
 					</AuthLayout>
 				),
 			},
+
+			{
+				path: "/redirecting",
+				element: (
+
+						<Redirecting/>
+
+				),
+			},
+			{
+				path: "/email-signin",
+				element: (
+
+						<EmailSignin/>
+
+				),
+			},
+
 			{
 				path: "/edit-post/:slug",
 				element: (

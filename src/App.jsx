@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link,   } from "react-router-dom";
 
 import authService from "./appwrite/authService";
 import { login, logout } from "./context/authSlice";
 import { setLoader } from "./context/loaderSlice";
 
+import { toast } from "sonner";
 import { Header, Footer, Card, Dropdown, RTE, PostForm, MetaDecorator } from "./components/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
 	const loading = useSelector((state) => state.loading.loader);
 	const theme = useSelector((state) => state.theme.mode);
+
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const dispatch = useDispatch();
@@ -34,8 +37,31 @@ function App() {
 			.finally(() => {
 				dispatch(setLoader(false));
 			});
-	}, []);
+	}, [dispatch,navigate]);
 
+	useEffect(() => {
+		const verifyMagicLink = async () => {
+			try {
+				dispatch(setLoader(true));
+
+				const session = await authService.getPasswordlesstoken();
+				dispatch(login(session)); // Assuming you have a login action to update auth state
+                toast.success("Sign in successfull", {
+                    position: "bottom-right",
+                });
+				dispatch(setLoader(false));
+				window.location.reload();	//not working need to manually refresh
+				navigate("/all-posts");
+			} catch (error) {
+				toast.error("Verification failed: " + error.message, {
+					position: "bottom-right",
+				});
+				dispatch(setLoader(false));
+			}
+
+			verifyMagicLink();
+		};
+	}, [dispatch, navigate]);
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />
