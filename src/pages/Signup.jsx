@@ -25,11 +25,17 @@ function Signup() {
 	const onSubmit = async (data) => {
 		try {
 			dispatch(setLoader(true))
-			const userData = await authService.signUp(data);
+			const signup = await authService.signUp(data);
+			if (signup) {
+				const { email, password } = data;
+				await authService.signIn({ email, password });
+			}
+			const userData = await authService.getCurrUser()
 			dispatch(login(userData));
 			toast.success('Account created successfully! Welcome '+data.name,{
 				position:"bottom-right"
 			})
+			navigate("/all-posts")
 			dispatch(setLoader(false))
 		} catch (e) {
 			toast.error('Sign up failed: ' + e.message);
