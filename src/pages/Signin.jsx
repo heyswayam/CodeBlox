@@ -26,13 +26,13 @@ function Signin() {
 	const onSubmit = async (data) => {
 		try {
 			dispatch(setLoader(true));
-			// const signIn = await authService.signIn(data);
-			const passwordLess = await authService.passwordLessSignin(data.email);
-			console.log(passwordLess);
-			toast.success("Email sent successfully", {
+			const signIn = await authService.signIn(data);
+			const userData = await authService.getCurrUser();
+			dispatch(login(userData));
+			toast.success("Signed in successfully", {
 				position: "bottom-right",
 			});
-			// navigate("/all-posts");
+			navigate("/all-posts");
 			dispatch(setLoader(false));
 		} catch (e) {
 			toast.error("Sign-in error: " + e.message, {
