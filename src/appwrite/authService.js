@@ -31,7 +31,8 @@ class AuthService {
             const result = await this.account.createMagicURLToken(
 				ID.unique(), // userId
 				email, // email
-                "http://localhost:5173/redirecting" // url (optional)
+                // "http://localhost:5173/redirecting" // url (optional)
+                "https://codebloxapp.vercel.app/redirecting" // url (optional)
 				// false // phrase (optional) // commenting this only works
 			);
             // console.log("Magic URL session created:", result);
