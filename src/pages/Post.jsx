@@ -16,6 +16,7 @@ export default function Post() {
 	const [loading, setLoading] = useState(true);
 	const userData = useSelector((state) => state.auth.userData);
 	const dispatch = useDispatch();
+	const mode = useSelector((state) => state.theme.mode);
 	const isAuthor = post && userData ? post.userId === userData.$id : false;
 	const truncateHTML = (html) => {
 		//have hardcoded charLimit = 50
@@ -24,6 +25,7 @@ export default function Post() {
 	};
 	useEffect(() => {
 		if (slug) {
+			//convert to try catch someday
 			postService.getPost(slug).then((post) => {
 				if (post) {
 					setPost(post);
@@ -43,19 +45,17 @@ export default function Post() {
 		}
 	}, [slug, navigate]);
 
-	const deletePost = async() => {
+	const deletePost = async () => {
 		try {
 			dispatch(setLoader(true));
 			const status = await postService.deletePost(post.$id);
 			if (status) {
-				
 				await postService.deleteFile(post.postImageId);
 				toast.success("Post deleted successfully", {
 					position: "bottom-right",
 				});
 				navigate("/all-posts");
 				dispatch(setLoader(false));
-
 			} else {
 				toast.error("Failed to delete post", {
 					position: "bottom-right",
@@ -68,17 +68,48 @@ export default function Post() {
 			dispatch(setLoader(false));
 		}
 	};
-	// useEffect(()=>{
-	// 	console.log(post);
-	// },[post])
+	useEffect(() => {
+		console.log(post);
+	}, [post]);
 	return loading === false && post ? (
 		<>
 			<MetaDecorator title={post.title} description={truncateHTML(post.content)} imageUrl={imgsrc} siteUrl={window.location.href} />
 			<div className='py-8 px-4 max-w-3xl mx-auto flex flex-col'>
 				<div className='w-full mb-6 flex flex-col '>
-					<p className='text-5xl text-center font-heading font-bold text-text '>{post.title}</p>
-					<p className='text-md self-end text-text'>- {post.author}</p>
+					<p className='text-5xl text-center font-heading  text-text '>{post.title}</p>
 				</div>
+				<div className='w-9/12 flex lg:self-center justify-between my-3'>
+						<div className='flex'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='lucide lucide-user h-4 self-center'>
+								<path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2' />
+								<circle cx='12' cy='7' r='4' />
+							</svg>
+							<span className='text-md text-[#5e5e5e] dark:text-[#d5d5d5]'>{post.author}</span>
+						</div>
+						<div className='flex'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' class='lucide lucide-calendar-plus h-4 self-center'>
+								<path d='M8 2v4' />
+								<path d='M16 2v4' />
+								<path d='M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8' />
+								<path d='M3 10h18' />
+								<path d='M16 19h6' />
+								<path d='M19 16v6' />
+							</svg>
+							<span className='text-md text-[#5e5e5e] dark:text-[#d5d5d5]'>{new Date(post.$createdAt).toLocaleDateString()}</span>
+						</div>
+						<div className='flex'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke={mode === "light" ? "#5e5e5e" : "#d5d5d5"} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' class='lucide lucide-calendar-arrow-up  h-4 self-center'>
+								<path d='m14 18 4-4 4 4' />
+								<path d='M16 2v4' />
+								<path d='M18 22v-8' />
+								<path d='M21 11.343V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9' />
+								<path d='M3 10h18' />
+								<path d='M8 2v4' />
+							</svg>
+							<span className='text-md text-[#5e5e5e] dark:text-[#d5d5d5]'>{new Date(post.$updatedAt).toLocaleDateString()}</span>
+						</div>
+
+					</div>
 				{isAuthor && (
 					<div className=' flex space-x-2 self-end mb-3'>
 						<Link to={`/edit-post/${post.$id}`}>
