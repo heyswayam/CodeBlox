@@ -65,7 +65,7 @@ function App() {
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />
-			<Toaster theme={theme} richColors closeButton={true}/>
+			<Toaster theme={theme} expand={true} richColors closeButton={true}/>
 			<Header />
 			<main className='flex-grow'>
 				{loading && (

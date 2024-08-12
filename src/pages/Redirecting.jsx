@@ -10,7 +10,10 @@ function Redirecting() {
 			const passwordLess = await authService.getPasswordlesstoken();
 
 			if (passwordLess) {
-				toast.success("Sign-in successful! Please refresh the page if you are not logged in automatically.", {
+				toast.success("Sign-in successful!", {
+					position: "bottom-right",
+				});
+				toast.warning("Please refresh the page if you are not logged in automatically.", {
 					position: "bottom-right",
 				});
 				navigate("/");

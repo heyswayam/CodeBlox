@@ -97,18 +97,17 @@ function Signin() {
 					</button>
 
 					<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
-						Don't have an account?
+						Don't have an account? {" "}
 						<Link to='/signup' className='underline dark:text-indigo-400'>
-							{" "}
 							Sign up
 						</Link>
 					</p>
 					<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
-						Forgot password?
 						<Link to='/email-signin' className='underline dark:text-indigo-400'>
 							{" "}
-							Get an email to signin
+							Receive an email
 						</Link>
+						{" "} for password-free sign-in
 					</p>
 				</form>
 			</div>
