@@ -29,7 +29,8 @@
     "react-router-dom": "^6.23.1",
     "react-spinners": "^0.13.8",
     "sonner": "^1.5.0",
-    "tinymce": "^7.1.2"
+    "tinymce": "^7.1.2",
+    "vite-plugin-pwa": "^0.20.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
