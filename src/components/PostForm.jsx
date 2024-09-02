@@ -60,7 +60,7 @@ export default function PostForm({ post }) {
 		(async () => {
 			try {
 				const prompt = inputRef.current.value;
-				const result = await model.generateContent(`Generate a blog article (under 500 words) on the topic of ${prompt}. Write in a tone suitable for a blog article, using first-person narrative. Do not use bold text. Write the headline on a new line.`);
+				const result = await model.generateContent("Generate blog article under 500 words if words is not specified. Keep the tone in first person and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" + prompt);
 
 				// console.log(result.response.text());
 				setValue("content", result.response.text());
