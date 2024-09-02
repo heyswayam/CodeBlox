@@ -7,6 +7,5 @@ const conf_env = {
     tinyMCEId: String(import.meta.env.VITE_TINYMCE_ID),
     geminiApi: String(import.meta.env.VITE_GENAI_ID)
 }
-console.log('Environment variables:', import.meta.env);
-console.log('conf_env:', conf_env);
+
 export default conf_env;

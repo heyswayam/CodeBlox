@@ -50,17 +50,13 @@ export default function PostForm({ post }) {
 	}, [post, setValue]);
 
 	const inputRef = useRef(null);
-	console.log("VITE_GENAI_ID:", import.meta.env.VITE_GENAI_ID);
+
 
 	const handleAiGeneration = (event) => {
 		event.preventDefault();
 		setGenAiLoading(true);
 		// using api key from genAi gemini google cloud project
 		const genAI = new GoogleGenerativeAI(conf_env.geminiApi);
-		console.log(conf_env.geminiApi);
-		console.log(conf_env.tinyMCEId);
-		
-		
 		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 		(async () => {
 			try {
