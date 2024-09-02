@@ -50,6 +50,7 @@ export default function PostForm({ post }) {
 	}, [post, setValue]);
 
 	const inputRef = useRef(null);
+	console.log("VITE_GENAI_ID:", import.meta.env.VITE_GENAI_ID);
 
 	const handleAiGeneration = (event) => {
 		event.preventDefault();
