@@ -4,7 +4,8 @@ const conf_env = {
     databaseId: String(import.meta.env.VITE_DATABASE_ID),
     colectionId: String(import.meta.env.VITE_COLLECTION_ID),
     bucketId: String(import.meta.env.VITE_BUCKET_ID),
-    tinyMCEId: String(import.meta.env.VITE_TINYMCE_ID)
+    tinyMCEId: String(import.meta.env.VITE_TINYMCE_ID),
+    geminiApiKey: String(import.meta.env.VITE_GEMINI_API_KEY)
 }
 
 export default conf_env;

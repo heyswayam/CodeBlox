@@ -1,14 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { RTE } from "./index";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import postService from "../appwrite/postService";
 import { useForm } from "react-hook-form";
-import { PulseLoader } from "react-spinners";
+import { PulseLoader, SyncLoader } from "react-spinners";
 import { toast } from "sonner";
+
+import conf_env from "../conf_env/conf_env";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default function PostForm({ post }) {
 	const [loading, setLoading] = useState(false);
+	const [genAiLoading, setGenAiLoading] = useState(false);
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
 	// const [imgsrc, setImgsrc] = useState("");	//it wasn't doing any thing but too scared to delete it lol
@@ -25,7 +29,7 @@ export default function PostForm({ post }) {
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
-			content: post?.content || "This is the initial content of the editor. ",
+			content: post?.content || "Write your own blog article from scratch...",
 			status: post?.status || mode,
 		},
 	});
@@ -44,6 +48,32 @@ export default function PostForm({ post }) {
 			});
 		}
 	}, [post, setValue]);
+
+	const inputRef = useRef(null);
+
+	const handleAiGeneration = (event) => {
+		event.preventDefault();
+		setGenAiLoading(true);
+		// using api key from genAi gemini google cloud project
+		const genAI = new GoogleGenerativeAI(conf_env.geminiApiKey);
+		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+		(async () => {
+			try {
+				const prompt = inputRef.current.value;
+				const result = await model.generateContent(
+					"Generate blog article under 500 words if words is not specified. Make the tone like blog article and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards. " + prompt,
+				);
+
+				// console.log(result.response.text());
+				setValue("content", result.response.text());
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setGenAiLoading(false);
+			}
+		})();
+		// console.log(inputRef.current.value);
+	};
 
 	const handleDrag = useCallback((e) => {
 		e.preventDefault();
@@ -84,11 +114,18 @@ export default function PostForm({ post }) {
 		setLoading(true);
 		// console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
 		data.status = data.status ? "public" : "private";
+		if (!data.postImage || data.postImage.length === 0) {
+            toast.error("Please upload an image.", {
+                position: "bottom-right",
+            });
+            setLoading(false);
+            return;
+        }
 		if (post) {
 			try {
 				setLoading(true);
 
-				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : null;
+				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : false;
 				// console.log(post);
 				if (file) {
 					postService.deleteFile(post.postImageId);
@@ -101,7 +138,6 @@ export default function PostForm({ post }) {
 
 					navigate(`/post/${dbPost.$id}`);
 				});
-
 			} catch (e) {
 				toast.error("Error updating post: " + e.message, {
 					position: "bottom-right",
@@ -109,12 +145,11 @@ export default function PostForm({ post }) {
 				dispatch(setLoader(false));
 				navigate("/all-posts");
 				setLoading(false);
-
 			}
 			// console.log("successfull_post_edited");
 		} else {
 			try {
-				const file = await postService.uploadFile(data.postImage[0]);
+				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : false;
 				if (file) {
 					const imageId = file.$id;
 					const { postImage, ...restData } = data;
@@ -124,9 +159,9 @@ export default function PostForm({ post }) {
 					toast.success("Post added successfully", {
 						position: "bottom-right",
 					});
-					setLoading(false);
 					// console.log("post added successfully");
 				}
+				setLoading(false);
 			} catch (e) {
 				toast.error("Error creating post: " + e.message, {
 					position: "bottom-right",
@@ -148,7 +183,7 @@ export default function PostForm({ post }) {
 								<label className='sr-only' htmlFor='title'>
 									Title
 								</label>
-								<input {...register("title", { required: !post })} className='w-full rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text' placeholder='Title' type='text' id='title' />
+								<input {...register("title", { required: !post })} className='w-full rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text placeholder:text-gray-400' placeholder='Enter a catchy title for your blog post' type='text' id='title' />
 							</div>
 							<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
 								<div>
@@ -180,7 +215,8 @@ export default function PostForm({ post }) {
 												<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
 													<span className='font-semibold'>Click to upload</span> or drag and drop
 												</p>
-												<p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+												<p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG or GIF</p>
+												<span className='text-red-500 dark:text-red-500/80 text-xs'> *required</span>
 											</div>
 										)}
 										<input id='dropzone-file' type='file' className='hidden' accept='image/png, image/jpg, image/jpeg, image/gif' {...register("postImage")} onChange={handleChange} />
@@ -188,11 +224,28 @@ export default function PostForm({ post }) {
 								</div>
 							</div>
 							<div>
+								<div>
+									<div className='my-3 flex flex-col justify-between items-center md:flex-row'>
+										<label className='sr-only' htmlFor='prompt'>
+											prompt
+										</label>
+										<input className='w-full md:w-10/12 rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text mb-2 md:mb-0 md:mr-2 placeholder:text-gray-400' placeholder='Describe the blog article you want to generate with AI' type='text' id='prompt' ref={inputRef} />
+										<button
+											onClick={handleAiGeneration}
+											className='inline-block w-full md:w-fit rounded-lg bg-accent text-white px-5 py-3 font-medium text-text translate-y-1 bg-gradient-to-br from-purple-600 to-blue-500 transition duration-300 ease-in-out hover:scale-95
+        text-sm text-center me-2 mb-2'
+										>
+											{genAiLoading ? <SyncLoader size={8} color='rgba(255, 255, 255, 0.9)' speedMultiplier={0.8} /> : "Generate"}
+										</button>
+									</div>
+								</div>
+
+								<p className='text-text w-fit mx-auto mb-3'>or</p>
 								<RTE name='content' control={control} />
 							</div>
 
 							<div className='mt-4'>
-								<button type='submit' className='inline-block w-full rounded-lg bg-accent text-white px-5 py-3 font-medium text-text  sm:w-auto'>
+								<button type='submit' className={`inline-block w-full rounded-lg bg-accent text-white px-5 py-3 font-medium text-text  sm:w-auto transition-all hover:scale-95 `}>
 									{post ? "Update" : "Submit"}
 								</button>
 							</div>
