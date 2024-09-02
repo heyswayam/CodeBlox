@@ -57,6 +57,8 @@ export default function PostForm({ post }) {
 		// using api key from genAi gemini google cloud project
 		const genAI = new GoogleGenerativeAI(conf_env.geminiApi);
 		console.log(conf_env.geminiApi);
+		console.log(conf_env.tinyMCEId);
+		
 		
 		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 		(async () => {
