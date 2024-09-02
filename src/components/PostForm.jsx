@@ -55,15 +55,18 @@ export default function PostForm({ post }) {
 		event.preventDefault();
 		setGenAiLoading(true);
 		// using api key from genAi gemini google cloud project
-		const genAI = new GoogleGenerativeAI(conf_env.geminiApiKey);
+		const genAI = new GoogleGenerativeAI(conf_env.geminiApi);
+		console.log(conf_env.geminiApi);
+		
 		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 		(async () => {
 			try {
 				const prompt = inputRef.current.value;
 				const result = await model.generateContent(
-					"Generate blog article under 500 words if words is not specified. Make the tone like blog article and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards. " + prompt,
+					"Generate blog article under 500 words if words is not specified. Make the tone like blog article and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" + prompt,
 				);
-
+				console.log(result.response.text());
+				
 				// console.log(result.response.text());
 				setValue("content", result.response.text());
 			} catch (err) {
