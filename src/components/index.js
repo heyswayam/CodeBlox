@@ -9,5 +9,6 @@ import RTE from "./RTE";
 import PostForm from "./PostForm";
 import MetaDecorator from "./MetaDecorator";
 import AuthLayout from "../components/AuthLayout"
-export { ThemeBtn, Header, Footer,Container, Error,Card,Dropdown,RTE,PostForm,AuthLayout,MetaDecorator };
+import NameModal from "./NameModal";
+export { ThemeBtn, Header, Footer,Container, Error,Card,Dropdown,RTE,PostForm,AuthLayout,MetaDecorator,NameModal };
 //removed Input

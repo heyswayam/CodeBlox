@@ -2,6 +2,7 @@ import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
     status: JSON.parse(localStorage.getItem('authStatus')) || false,
+    userData: null,
 };
 
 const authSlice = createSlice({
@@ -17,9 +18,12 @@ const authSlice = createSlice({
             state.status = false;
             state.userData = null;
 
+        },
+        updateName: (state,action)=>{
+            state.userData.name=action.payload;
         }
     }
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout,updateName } = authSlice.actions;
 export const authReducers = authSlice.reducer;

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useLocation, useNavigate, Link,   } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
 
 import authService from "./appwrite/authService";
-import { login, logout } from "./context/authSlice";
+import { login, logout, updateName } from "./context/authSlice";
 import { setLoader } from "./context/loaderSlice";
 
 import { toast } from "sonner";
-import { Header, Footer, Card, Dropdown, RTE, PostForm, MetaDecorator } from "./components/index";
+import { Header, Footer, Card, Dropdown, RTE, PostForm, MetaDecorator,NameModal } from "./components/index";
 import PulseLoader from "react-spinners/PulseLoader";
 
 function App() {
@@ -19,29 +19,32 @@ function App() {
 	const location = useLocation();
 
 	const dispatch = useDispatch();
-	//logged in or not
+	const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+//logged in or not
 	useEffect(() => {
 		authService
 			.getCurrUser()
 			.then((userData) => {
 				if (userData) {
 					dispatch(login(userData));
-					toast.success("Sign-in successful. Welcome "+userData.name, {
-						position: "bottom-right",
-					});
+					if (userData.name === "") {
+						setIsNameModalOpen(true);
+					} else {
+						toast.success("Sign-in successful. Welcome " + userData.name, {
+							position: "bottom-right",
+						});
+					}
 				} else {
 					dispatch(logout());
 				}
 			})
-			// .catch((error) => {
-			// 	console.log("The error is being showed becoz the User is not logged in");
-			// 	// console.log('\n'.repeat('25'));
-			// })
+			.catch((error) => {
+				console.log("Error fetching user data:", error);
+			})
 			.finally(() => {
 				dispatch(setLoader(false));
 			});
-	}, [dispatch]);
-	
+	}, [dispatch]);	
 	
 	// this useEffect doesn't runs, you get signed in automatically. HOW???
 
@@ -53,9 +56,9 @@ function App() {
 	// 			const session = await authService.getPasswordlesstoken();
 	// 			dispatch(login(session)); // Assuming you have a login action to update auth state
 	// 			dispatch(setLoader(false));
-    //             toast.success("Sign in successfull", {
-    //                 position: "bottom-right",
-    //             });
+	//             toast.success("Sign in successfull", {
+	//                 position: "bottom-right",
+	//             });
 	// 			// window.location.reload();	//not working need to manually refresh
 	// 			// navigate("/all-posts");
 	// 		} catch (error) {
@@ -68,11 +71,20 @@ function App() {
 	// 		verifyMagicLink();
 	// 	};
 	// }, [dispatch, navigate]);
-	
+	const handleNameSave = (newName) => {
+		authService.updateName(newName).then(() => {
+			dispatch(updateName(newName));
+			setIsNameModalOpen(false);
+			toast.success("Sign-in successful. Welcome " + newName, {
+				position: "bottom-right",
+			});
+		});
+	};
+
 	return (
 		<div className='flex flex-col min-h-screen'>
-			<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />
-			<Toaster theme={theme} expand={true} richColors closeButton={true}/>
+			<MetaDecorator title='Codeblox' description='A simple blog application' siteUrl={window.location.href} />
+			<Toaster theme={theme} expand={true} richColors closeButton={true} />
 			<Header />
 			<main className='flex-grow'>
 				{loading && (
@@ -82,7 +94,13 @@ function App() {
 				)}
 				{!loading && <Outlet />}
 			</main>
+			
 			{location.pathname !== "/" && <Footer />}
+
+			<NameModal
+				isOpen={isNameModalOpen}
+				onSave={handleNameSave}
+			/>
 		</div>
 	);
 }

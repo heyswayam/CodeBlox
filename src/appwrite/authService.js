@@ -79,6 +79,15 @@ class AuthService {
 			throw error;
 		}
 	}
+
+	async updateName(name){
+		try {
+			await this.account.updateName(name);
+		} catch (error) {
+			console.log("auth.js :: updateName :: error " + error);
+			throw error;
+		}
+	}
 }
 
 const authService = new AuthService();
