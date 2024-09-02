@@ -1,36 +1,45 @@
-import React, { useState, useId } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Dropdown({ label = "filter", options }) {
-	const [isActive, setisActive] = useState("hidden");
-	const handleClick = () => {
-		setisActive((prev) => (prev === "hidden" ? "active" : "hidden"));
-	};
+    const [isActive, setisActive] = useState("hidden");
+    const handleClick = () => {
+        setisActive((prev) => (prev === "hidden" ? "active" : "hidden"));
+    };
 
-	return (
-		<>
-			<div className='absolute end-3 w-fit flex flex-col mt-3'>
-				<div className='inline-flex w-fit items-center overflow-hidden rounded-md shadow-sm dark:shadow-sm bg-white dark:bg-gray-900/50'>
-					<div className='px-4 py-2 text-sm text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300'>{label}</div>
-					<button onClick={handleClick} className='h-full p-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300'>
-						<span className='sr-only'>Menu</span>
-						<svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
-							<path fillRule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clipRule='evenodd' />
-						</svg>
-					</button>
-				</div>
-				<div className={`flex transition rounded-md bg-white dark:bg-gray-900/50 shadow-lg ${isActive}`} role='menu'>
-					<div className='p-2'>
-						{options?.map((obj) => (
-							<div key={obj.key} className='block rounded-lg px-4 py-2 text-sm text-gray-500 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300' role='menuitem'>
-								{obj.text}
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
-		</>
-	);
+    return (
+        <>
+            <div className='flex gap-8 '>
+                <div className='fixed top-2 md:top-5'>
+                    <details className='group [&_summary::-webkit-details-marker]:hidden'>
+                        <summary className='flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600'>
+                            <span className='text-sm font-medium'> {label} </span>
+
+                            <span className='transition group-open:-rotate-180'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' className='size-4'>
+                                    <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
+                                </svg>
+                            </span>
+                        </summary>
+
+                        <div className='z-50 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2'>
+                            <div className='w-fit rounded border border-gray-200 bg-white'>
+                                <div className='p-4'>
+                                    {options.map((option) => (
+                                        <label key={option.key} className='flex items-center gap-2'>
+                                            <input type='radio' className='w-4 h-4' />
+                                            <span className='text-sm text-gray-600'>{option.text}</span>
+                                        </label>
+                                    ))}
+
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default Dropdown;
