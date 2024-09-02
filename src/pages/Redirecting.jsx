@@ -7,17 +7,29 @@ function Redirecting() {
 	const navigate = useNavigate();
 	useEffect(() => {
 		const promise = async () => {
-			const passwordLess = await authService.getPasswordlesstoken();
+			try {
+				const passwordLess = await authService.getPasswordlesstoken();
+					// console.log("passwordless"+ passwordLess);
+					
 
-			if (passwordLess) {
-				toast.success("Sign-in successful!", {
+					// toast.warning("Please refresh the page if you are not logged in automatically.", {
+					// 	position: "bottom-right",
+					// });
+					
+					// // Add a delay before redirecting
+					// setTimeout(() => {
+						
+					// 	toast.success("Sign-in successful!", {
+					// 		position: "bottom-right",
+					// 	});
+					// }, 500); // 300ms  delay
+					window.location.href = "/"; // unless you add a delay to this , the toast or anyother code doesn' works.So hadrcoded signin toast to app.jsx FIX IT SOMEDAY
+			} catch (error) {
+				toast.error("Error during passwordless sign-in: "+error,{
 					position: "bottom-right",
 				});
-				toast.warning("Please refresh the page if you are not logged in automatically.", {
-					position: "bottom-right",
-				});
-				navigate("/");
 			}
+			
 		};
 		promise();
 	}, []);

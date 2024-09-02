@@ -34,28 +34,28 @@ function EmailSignin() {
 		}
 	};
 
-	useEffect(() => {
-		const verifyMagicLink = async () => {
-			try {
-				dispatch(setLoader(true));
+	// useEffect(() => {
+	// 	const verifyMagicLink = async () => {
+	// 		try {
+	// 			dispatch(setLoader(true));
 
-				const session = await authService.getPasswordlesstoken();
-				dispatch(login(session)); // Assuming you have a login action to update auth state
-                toast.success("Sign in successfull", {
-                    position: "bottom-right",
-                });
-				dispatch(setLoader(false));
-				navigate("/");
-			} catch (error) {
-				toast.error("Verification failed: " + error.message, {
-					position: "bottom-right",
-				});
-				dispatch(setLoader(false));
-			}
+	// 			const session = await authService.getPasswordlesstoken();
+	// 			dispatch(login(session)); // Assuming you have a login action to update auth state
+    //             toast.success("Sign in successfull", {
+    //                 position: "bottom-right",
+    //             });
+	// 			dispatch(setLoader(false));
+	// 			navigate("/");
+	// 		} catch (error) {
+	// 			toast.error("Verification failed: " + error.message, {
+	// 				position: "bottom-right",
+	// 			});
+	// 			dispatch(setLoader(false));
+	// 		}
 
-			verifyMagicLink();
-		};
-	}, [location, navigate]);
+	// 		verifyMagicLink();
+	// 	};
+	// }, [location, navigate]);
 
 	return (
 		<div className='mx-auto max-w-screen-xl px-4 pt-16 sm:px-6 lg:px-8 dark:bg-accent-50'>
@@ -64,7 +64,7 @@ function EmailSignin() {
 					Welcome to <span className='font-mono font-thin'>CodeBlox</span>
 				</h1>
 
-				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
+				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 space-y-4 rounded-lg p-4 my-10 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
 					<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
 
 					<div>

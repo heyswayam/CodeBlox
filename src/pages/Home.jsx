@@ -30,8 +30,12 @@ export default function Home() {
 			</div>
 			<div className='relative md:w-10/12 md:h-full h-80 sm:translate-x-[10rem] md:translate-x-[20rem] lg:translate-x-[30rem] xl:translate-x-[35rem] -z-10'>
 				{/* <div className='absolute top-0 left-0 w-full h-full'> */}
-				<Spline scene='https://prod.spline.design/0HANipyX68BciPhL/scene.splinecode' className='w-full h-full object-contain' />	{/* heyyswayam@gmail.com spline account */}
+				<Spline scene='https://prod.spline.design/0HANipyX68BciPhL/scene.splinecode' className='w-full h-full object-contain' /> {/* heyyswayam@gmail.com spline account */}
 			</div>
+			{/* <div className='absolute bottom-20 right-10 text-[#8b8b8d] flex flex-col items-center  '>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mouse"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
+			Drag to interact
+			</div> */}
 		</div>
 	);
 }

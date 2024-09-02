@@ -26,42 +26,49 @@ function App() {
 			.then((userData) => {
 				if (userData) {
 					dispatch(login(userData));
+					toast.success("Sign-in successful. Welcome "+userData.name, {
+						position: "bottom-right",
+					});
 				} else {
 					dispatch(logout());
 				}
 			})
-			.catch((error) => {
-				console.log("The error is being showed becoz the User is not logged in");
-				// console.log('\n'.repeat('25'));
-			})
+			// .catch((error) => {
+			// 	console.log("The error is being showed becoz the User is not logged in");
+			// 	// console.log('\n'.repeat('25'));
+			// })
 			.finally(() => {
 				dispatch(setLoader(false));
 			});
-	}, [dispatch,navigate]);
+	}, [dispatch]);
+	
+	
+	// this useEffect doesn't runs, you get signed in automatically. HOW???
 
-	useEffect(() => {
-		const verifyMagicLink = async () => {
-			try {
-				dispatch(setLoader(true));
+	// useEffect(() => {
+	// 	const verifyMagicLink = async () => {
+	// 		try {
+	// 			dispatch(setLoader(true));
 
-				const session = await authService.getPasswordlesstoken();
-				dispatch(login(session)); // Assuming you have a login action to update auth state
-                toast.success("Sign in successfull", {
-                    position: "bottom-right",
-                });
-				dispatch(setLoader(false));
-				window.location.reload();	//not working need to manually refresh
-				navigate("/all-posts");
-			} catch (error) {
-				toast.error("Verification failed: " + error.message, {
-					position: "bottom-right",
-				});
-				dispatch(setLoader(false));
-			}
+	// 			const session = await authService.getPasswordlesstoken();
+	// 			dispatch(login(session)); // Assuming you have a login action to update auth state
+	// 			dispatch(setLoader(false));
+    //             toast.success("Sign in successfull", {
+    //                 position: "bottom-right",
+    //             });
+	// 			// window.location.reload();	//not working need to manually refresh
+	// 			// navigate("/all-posts");
+	// 		} catch (error) {
+	// 			toast.error("Verification failed: " + error.message, {
+	// 				position: "bottom-right",
+	// 			});
+	// 			dispatch(setLoader(false));
+	// 		}
 
-			verifyMagicLink();
-		};
-	}, [dispatch, navigate]);
+	// 		verifyMagicLink();
+	// 	};
+	// }, [dispatch, navigate]);
+	
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<MetaDecorator title="Codeblox" description="A simple blog application"  siteUrl={window.location.href} />

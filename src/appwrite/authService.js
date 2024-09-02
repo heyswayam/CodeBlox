@@ -45,11 +45,11 @@ class AuthService {
 
 	async passwordLessSignin(email) {
 		try {
+			const url = window.location.hostname === 'localhost' ? "http://localhost:5173/redirecting" : "https://codebloxapp.vercel.app/redirecting";
 			const result = await this.account.createMagicURLToken(
 				ID.unique(), // userId
 				email, // email
-				// "http://localhost:5173/redirecting" // url (optional)
-				"https://codebloxapp.vercel.app/redirecting", // url (optional)
+				url // url sets to localhost or vercel.app one
 				// false // phrase (optional) // commenting this only works
 			);
 			// console.log("Magic URL session created:", result);
@@ -62,7 +62,7 @@ class AuthService {
 	async getPasswordlesstoken() {
 		try {
 			const urlParams = new URLSearchParams(window.location.search);
-			console.log("urlParams: " + urlParams);
+			// console.log("urlParams: " + urlParams);
 
 			const userId = urlParams.get("userId");
 			const secret = urlParams.get("secret");
