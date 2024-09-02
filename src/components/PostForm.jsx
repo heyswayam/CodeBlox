@@ -60,9 +60,7 @@ export default function PostForm({ post }) {
 		(async () => {
 			try {
 				const prompt = inputRef.current.value;
-				const result = await model.generateContent(
-					"Generate blog article under 500 words if words is not specified. Make the tone like blog article and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" + prompt,
-				);
+				const result = await model.generateContent(`Generate a blog article (under 500 words) on the topic of ${prompt}. Write in a tone suitable for a blog article, using first-person narrative. Do not use bold text. Write the headline on a new line.`);
 
 				// console.log(result.response.text());
 				setValue("content", result.response.text());
@@ -114,13 +112,7 @@ export default function PostForm({ post }) {
 		setLoading(true);
 		// console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
 		data.status = data.status ? "public" : "private";
-		if (!data.postImage || data.postImage.length === 0) {
-            toast.error("Please upload an image.", {
-                position: "bottom-right",
-            });
-            setLoading(false);
-            return;
-        }
+
 		if (post) {
 			try {
 				setLoading(true);
@@ -148,6 +140,13 @@ export default function PostForm({ post }) {
 			}
 			// console.log("successfull_post_edited");
 		} else {
+			if (!data.postImage || data.postImage.length === 0) {
+				toast.error("Please upload an image.", {
+					position: "bottom-right",
+				});
+				setLoading(false);
+				return;
+			}
 			try {
 				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : false;
 				if (file) {
