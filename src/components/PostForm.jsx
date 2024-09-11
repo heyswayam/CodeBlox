@@ -24,7 +24,7 @@ export default function PostForm({ post }) {
 		const newMode = mode === "public" ? "private" : "public";
 		setMode(newMode);
 		setValue("status", newMode);
-		// console.log("New mode:", newMode);
+		console.log("New mode:", newMode);
 	};
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
@@ -60,7 +60,10 @@ export default function PostForm({ post }) {
 		(async () => {
 			try {
 				const prompt = inputRef.current.value;
-				const result = await model.generateContent("Generate blog article under 500 words if words is not specified. Keep the tone in first person and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" + prompt);
+				const result = await model.generateContent(
+					"Generate blog article under 500 words if words is not specified. Keep the tone in first person and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" +
+						prompt,
+				);
 
 				// console.log(result.response.text());
 				setValue("content", result.response.text());
@@ -110,8 +113,8 @@ export default function PostForm({ post }) {
 
 	const submit = async (data) => {
 		setLoading(true);
-		// console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
-		data.status = data.status ? "public" : "private";
+		// data.status = data.status ? "public" : "private"; // was needed when the status was used as radio button
+		console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
 
 		if (post) {
 			try {
@@ -182,14 +185,25 @@ export default function PostForm({ post }) {
 								<label className='sr-only' htmlFor='title'>
 									Title
 								</label>
-								<input {...register("title", { required: !post })} className='w-full rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text placeholder:text-gray-400' placeholder='Enter a catchy title for your blog post' type='text' id='title' />
+								<input {...register("title", { required: !post })} className='w-full rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text placeholder:text-gray-400' placeholder='Enter a title for your blog post' type='text' id='title' />
 							</div>
 							<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
-								<div>
+								{/* <div>
 									<label htmlFor='status' className={`block w-full cursor-pointer rounded-lg  p-3 text-white dark:hover:border-white ${mode === "private" ? "bg-blue-500/80 dark:bg-blue-500/50" : "bg-green-500/80 dark:bg-green-500/50 "}`}>
 										<input {...register("status")} id='status' type='checkbox' onChange={handleRadioChange} className='hidden-radio' checked={mode === "public"} />
 										<span className='text-sm'>{mode === "private" ? "Private" : "Public"}</span>
 									</label>
+								</div> */}
+								<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
+									<div>
+										<label htmlFor='status' className={`block w-full cursor-pointer rounded-lg p-3 text-white dark:hover:border-white ${mode === "private" ? "bg-blue-500/80 dark:bg-blue-500/50" : "bg-green-500/80 dark:bg-green-500/50 "} flex w-32`}>
+											<input {...register("status")} id='status' type='checkbox' onChange={handleRadioChange} className='hidden' checked={mode === "public"} />
+											<span className='text-sm w-16'>{mode === "private" ? "Private" : "Public"}</span>
+											<span className={`ml-2 inline-block w-10 h-6 align-middle relative ${mode === "public" ? "bg-green-500" : "bg-blue-500"} rounded-full transition-colors duration-300`}>
+												<span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${mode === "public" ? "transform translate-x-3" : ""}`}></span>
+											</span>
+										</label>
+									</div>
 								</div>
 							</div>
 							<div>
@@ -228,15 +242,22 @@ export default function PostForm({ post }) {
 										<label className='sr-only' htmlFor='prompt'>
 											prompt
 										</label>
-										<input className='w-full md:w-10/12 rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text mb-2 md:mb-0 md:mr-2 placeholder:text-gray-400' placeholder='Describe the blog article you want to generate with AI' type='text' id='prompt' ref={inputRef} />
+										<input
+											className='w-full md:w-11/12 rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text mb-2 md:mb-0 md:mr-2 placeholder:text-gray-400'
+											placeholder='Describe the blog you want to generate with AI'
+											type='text'
+											id='prompt'
+											ref={inputRef}
+										/>
 										<button
 											onClick={handleAiGeneration}
 											className='inline-block w-full md:w-fit rounded-lg bg-accent text-white px-5 py-3 font-medium text-text translate-y-1 bg-gradient-to-br from-purple-600 to-blue-500 transition duration-300 ease-in-out hover:scale-95
-        text-sm text-center me-2 mb-2'
+        text-sm text-center mb-2'
 										>
 											{genAiLoading ? <SyncLoader size={8} color='rgba(255, 255, 255, 0.9)' speedMultiplier={0.8} /> : "Generate"}
 										</button>
 									</div>
+									<p className='text-xs text-gray-500 dark:text-gray-400 mx-auto mb-3 w-fit'>By default, the AI will generate a blog in the first person. If you want an article in the third person, mention it explicitly.</p>
 								</div>
 
 								<p className='text-text w-fit mx-auto mb-3'>or</p>
