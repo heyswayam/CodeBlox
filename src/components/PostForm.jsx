@@ -155,7 +155,7 @@ export default function PostForm({ post }) {
 				if (file) {
 					const imageId = file.$id;
 					const { postImage, ...restData } = data;
-					postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, author: userData.name }).then((dbPost) => {
+					postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, status:status  ,author: userData.name }).then((dbPost) => {
 						navigate(`/post/${dbPost.$id}`);
 					});
 					toast.success("Post added successfully", {
