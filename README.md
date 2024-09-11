@@ -49,10 +49,19 @@ npm run preview
 
 ```
 .
+├── .env
+├── .env.sample
+├── .eslintrc.cjs
+├── .gitignore
 ├── .vscode/
 │   └── settings.json
+├── index.html
+├── package.json
+├── postcss.config.js
 ├── public/
+├── README.md
 ├── src/
+│   ├── App.jsx
 │   ├── appwrite/
 │   │   ├── authService.js
 │   │   └── postService.js
@@ -66,26 +75,19 @@ npm run preview
 │   │   ├── Footer.jsx
 │   │   ├── Header.jsx
 │   │   ├── Input.jsx
+│   │   ├── MetaDecorator.jsx
+│   │   ├── NameModal.jsx
 │   │   ├── PostForm.jsx
 │   │   ├── RTE.jsx
 │   │   ├── ThemeBtn.jsx
 │   │   └── index.js
 │   ├── conf_env/
-│   │   └── conf_env.js
 │   ├── context/
-│   ├── pages/
-│   ├── App.jsx
 │   ├── index.css
 │   ├── main.jsx
-├── .env
-├── .env.sample
-├── .eslintrc.cjs
-├── .gitignore
-├── index.html
-├── package.json
-├── postcss.config.js
-├── README.md
+│   ├── pages/
 ├── tailwind.config.js
+├── vercel.json
 └── vite.config.js
 ```
 
