@@ -194,16 +194,14 @@ export default function PostForm({ post }) {
 										<span className='text-sm'>{mode === "private" ? "Private" : "Public"}</span>
 									</label>
 								</div> */}
-								<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
-									<div>
-										<label htmlFor='status' className={`block w-full cursor-pointer rounded-lg p-3 text-white dark:hover:border-white ${mode === "private" ? "bg-blue-500/80 dark:bg-blue-500/50" : "bg-green-500/80 dark:bg-green-500/50 "} flex w-32`}>
-											<input {...register("status")} id='status' type='checkbox' onChange={handleRadioChange} className='hidden' checked={mode === "public"} />
-											<span className='text-sm w-16'>{mode === "private" ? "Private" : "Public"}</span>
-											<span className={`ml-2 inline-block w-10 h-6 align-middle relative ${mode === "public" ? "bg-green-500" : "bg-blue-500"} rounded-full transition-colors duration-300`}>
-												<span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${mode === "public" ? "transform translate-x-3" : ""}`}></span>
-											</span>
-										</label>
-									</div>
+									<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
+									<label htmlFor='status' className={`block cursor-pointer rounded-lg p-3 text-white dark:hover:border-white ${mode === "private" ? "bg-blue-500/80 dark:bg-blue-500/50" : "bg-green-500/80 dark:bg-green-500/50 "} flex items-center justify-between w-32`}>
+										<input {...register("status")} id='status' type='checkbox' onChange={handleRadioChange} className='hidden' checked={mode === "public"} />
+										<span className='text-sm'>{mode === "private" ? "Private" : "Public"}</span>
+										<span className={`ml-2 inline-block w-9 h-6 align-middle relative ${mode === "public" ? "bg-green-500" : "bg-blue-500"} rounded-full transition-colors duration-300`}>
+											<span className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${mode === "public" ? "transform translate-x-3" : ""}`}></span>
+										</span>
+									</label>
 								</div>
 							</div>
 							<div>
