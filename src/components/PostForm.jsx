@@ -114,12 +114,12 @@ export default function PostForm({ post }) {
 	const submit = async (data) => {
 		setLoading(true);
 		// data.status = data.status ? "public" : "private"; // was needed when the status was used as radio button
+		data.status = mode; // this works like the above comment on swithc, but i haven't checked it on the radio button
 		console.log(data); /////VERY IMPORTANT CONSOLE LOG. HELPS YOU TO SEE THE SUBMITED DATA ////////*********/
 
 		if (post) {
 			try {
 				setLoading(true);
-
 				const file = data.postImage[0] ? await postService.uploadFile(data.postImage[0]) : false;
 				// console.log(post);
 				if (file) {
@@ -155,20 +155,26 @@ export default function PostForm({ post }) {
 				if (file) {
 					const imageId = file.$id;
 					const { postImage, ...restData } = data;
-					postService.createPost({ ...restData, postImageId: imageId, userId: userData.$id, status:status  ,author: userData.name }).then((dbPost) => {
-						navigate(`/post/${dbPost.$id}`);
-					});
+					postService
+						.createPost({ ...restData, postImageId: imageId, userId: userData.$id, author: userData.name })
+						.then((dbPost) => {
+							navigate(`/post/${dbPost.$id}`);
+						})
+						.finally(() => {
+							setLoading(false);
+							dispatch(setLoader(false));
+						});
 					toast.success("Post added successfully", {
 						position: "bottom-right",
 					});
 					// console.log("post added successfully");
 				}
-				setLoading(false);
 			} catch (e) {
 				toast.error("Error creating post: " + e.message, {
 					position: "bottom-right",
 				});
 
+				setLoading(false);
 				dispatch(setLoader(false));
 			}
 		}
@@ -194,7 +200,7 @@ export default function PostForm({ post }) {
 										<span className='text-sm'>{mode === "private" ? "Private" : "Public"}</span>
 									</label>
 								</div> */}
-									<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
+								<div className='grid grid-cols-1 gap-4 text-center sm:grid-cols-3'>
 									<label htmlFor='status' className={`block cursor-pointer rounded-lg p-3 text-white dark:hover:border-white ${mode === "private" ? "bg-blue-500/80 dark:bg-blue-500/50" : "bg-green-500/80 dark:bg-green-500/50 "} flex items-center justify-between w-32`}>
 										<input {...register("status")} id='status' type='checkbox' onChange={handleRadioChange} className='hidden' checked={mode === "public"} />
 										<span className='text-sm'>{mode === "private" ? "Private" : "Public"}</span>
