@@ -29,7 +29,7 @@ export default function PostForm({ post }) {
 	const { register, handleSubmit, reset, watch, setValue, control, getValues } = useForm({
 		defaultValues: {
 			title: post?.title || "",
-			content: post?.content || "Write your own blog article from scratch...",
+			content: post?.content || "Write your own blog or article from scratch...",
 			status: post?.status || mode,
 		},
 	});
@@ -61,7 +61,7 @@ export default function PostForm({ post }) {
 			try {
 				const prompt = inputRef.current.value;
 				const result = await model.generateContent(
-					"Generate blog article under 500 words if words is not specified. Keep the tone in first person and don't bold any text, write the headline on a new line. The topic to generate the blog article on is mentioned from the next sentence onwards and if there's no next sentence return, please enter your prompt" +
+					"Generate a blog post under 500 words if the word count is not specified. Use a first-person tone unless specified as an article, in which case use a formal tone. The topic for the blog post follows this sentence. If no topic is provided, return 'Please enter your prompt.'" +
 						prompt,
 				);
 
@@ -248,10 +248,11 @@ export default function PostForm({ post }) {
 										</label>
 										<input
 											className='w-full md:w-11/12 rounded-lg border-gray-300 dark:border-gray-700 p-3 text-sm dark:bg-gray-700 text-text mb-2 md:mb-0 md:mr-2 placeholder:text-gray-400'
-											placeholder='Describe the blog you want to generate with AI'
+											placeholder="Enter a specific topic or prompt for the AI to generate"
 											type='text'
 											id='prompt'
 											ref={inputRef}
+											rows={3} // Adjust the number of rows as needed
 										/>
 										<button
 											onClick={handleAiGeneration}
@@ -261,7 +262,7 @@ export default function PostForm({ post }) {
 											{genAiLoading ? <SyncLoader size={8} color='rgba(255, 255, 255, 0.9)' speedMultiplier={0.8} /> : "Generate"}
 										</button>
 									</div>
-									<p className='text-xs text-gray-500 dark:text-gray-400 mx-auto mb-3 w-fit'>By default, the AI will generate a blog in the first person. If you want an article in the third person, mention it explicitly.</p>
+									<p className='text-xs text-gray-500 dark:text-gray-400 mx-auto mb-3 w-fit'>By default, the AI will generate a blog in the first person. If you prefer an article, please specify it explicitly. i.e. "write an article on ...."</p>
 								</div>
 
 								<p className='text-text w-fit mx-auto mb-3'>or</p>
