@@ -89,13 +89,14 @@ class PostService {
 			console.log("appwrite :: postConfig :: listPosts :: error ::", error);
 		}
 	}
-    async listPostsPrivate() {   
+    async getfilterPosts({key,value}) {   
         //userId was not taken in lecture since, the OP can only edit it
 		try {
 			return await this.databases.listDocuments(
 				conf_env.databaseId, // databaseId
 				conf_env.colectionId, // collectionId
-                [Query.equal("status", ["Active"])] //querry commented temporarily
+                // [Query.equal("status", ["Active"])] //querry commented temporarily
+                [Query.equal(key, [value])] //querry commented temporarily
 			);
 		} catch (error) {
 			console.log("appwrite :: postConfig :: listPostsPrivate :: error ::", error);
