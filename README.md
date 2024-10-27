@@ -1,115 +1,57 @@
 
+# Codeblox
+
+CodeBlox is a feature-rich, responsive AI- powered blog platform designed to inspire and connect writers. It allows users to write, share, and explore posts.
+
+## Features
+
+- **Generative AI Integration**: Leveraged the Gemini API for AI-powered content generation.
+- **Secure Authentication**: Supports both traditional and passwordless (magic URL) sign-in methods.
+- **Responsive UI**: Fully responsive design with dark mode support.
+- **Toast Notifications**: Integrated Sonner for user-friendly notifications.
+- **Exceptional Performance**: Achieved a real experience score of 98 on Vercel Speed & Analytics.
 
 
-# CodeBlox
+## Tech Stack
 
-CodeBlox is a web application designed to inspire and connect writers. It allows users to write, share, and explore posts.
+**Frontend:** React, React Router, React Hook Form, Tailwind-CSS, TinyMCE, Sonner, React Spinners, Spline
 
-## Table of Contents
+**Backend:** Appwrite
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Dependencies](#dependencies)
-- [License](#license)
+**AI Integration:** Google Gemini API
 
-## Installation
+## Demo
+![demo_final](https://github.com/user-attachments/assets/9a34e7d1-017c-41f1-bf92-d0aadc48d59b)
 
-1. Clone the repository:
-    ```sh
+## Run Locally
+To run the CodeBlox project locally, follow these steps:
+
+1. Clone the project
+
+```bash
     git clone https://github.com/yourusername/codeblox.git
     cd codeblox
-    ```
+```
+2. Install dependencies
 
-2. Install the dependencies:
-    ```sh
+```bash
     npm install
-    ```
-
-3. Create a `.env` file based on `.env.sample` and configure your environment variables.
-
-## Usage
-
-To start the development server, run:
 ```
-npm run dev
+3. Set Up Environment Variables
+- Create a `.env` file in the root directory based on the provided `.env.sample` file.
+ - Fill in the required environment variables in the `.env` file:
+```bash
+    VITE_APPWRITE_URL
+    VITE_PROJECT_ID
+    VITE_DATABASE_ID
+    VITE_COLLECTION_ID
+    VITE_BUCKET_ID
+    VITE_TINYMCE_ID
+    VITE_GENAI_ID
 ```
+4. Start the server
 
-To build the project for production, run:
-```sh
-npm run build
-```
-
-To preview the production build, run:
-```sh
-npm run preview
+```bash
+  npm run dev
 ```
 
-## Project Structure
-
-```
-.
-├── .env
-├── .env.sample
-├── .eslintrc.cjs
-├── .gitignore
-├── .vscode/
-│   └── settings.json
-├── index.html
-├── package.json
-├── postcss.config.js
-├── public/
-├── README.md
-├── src/
-│   ├── App.jsx
-│   ├── appwrite/
-│   │   ├── authService.js
-│   │   └── postService.js
-│   ├── assets/
-│   ├── components/
-│   │   ├── AuthLayout.jsx
-│   │   ├── Card.jsx
-│   │   ├── Container.jsx
-│   │   ├── Dropdown.jsx
-│   │   ├── Error.jsx
-│   │   ├── Footer.jsx
-│   │   ├── Header.jsx
-│   │   ├── Input.jsx
-│   │   ├── MetaDecorator.jsx
-│   │   ├── NameModal.jsx
-│   │   ├── PostForm.jsx
-│   │   ├── RTE.jsx
-│   │   ├── ThemeBtn.jsx
-│   │   └── index.js
-│   ├── conf_env/
-│   ├── context/
-│   ├── index.css
-│   ├── main.jsx
-│   ├── pages/
-├── tailwind.config.js
-├── vercel.json
-└── vite.config.js
-```
-
-
-## Dependencies
-
-- [`@reduxjs/toolkit`](command:_github.copilot.openSymbolFromReferences?%5B%22%40reduxjs%2Ftoolkit%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A12%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`@splinetool/react-spline`](command:_github.copilot.openSymbolFromReferences?%5B%22%40splinetool%2Freact-spline%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A13%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`@tinymce/tinymce-react`](command:_github.copilot.openSymbolFromReferences?%5B%22%40tinymce%2Ftinymce-react%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A14%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`alpinejs`](command:_github.copilot.openSymbolFromReferences?%5B%22alpinejs%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A15%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`appwrite`](command:_github.copilot.openSymbolFromReferences?%5B%22appwrite%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A16%2C%22character%22%3A5%7D%7D%2C%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A2%2C%22character%22%3A28%7D%7D%5D%5D "Go to definition")
-- [`fs-extra`](command:_github.copilot.openSymbolFromReferences?%5B%22fs-extra%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A17%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`html-react-parser`](command:_github.copilot.openSymbolFromReferences?%5B%22html-react-parser%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A18%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`lucide-react`](command:_github.copilot.openSymbolFromReferences?%5B%22lucide-react%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A19%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`react`](command:_github.copilot.openSymbolFromReferences?%5B%22react%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A13%2C%22character%22%3A17%7D%7D%2C%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A0%2C%22character%22%3A44%7D%7D%2C%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fpages%2FHome.jsx%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fsrc%2Fpages%2FHome.jsx%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fpages%2FHome.jsx%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A0%2C%22character%22%3A32%7D%7D%5D%5D "Go to definition")
-- [`react-dom`](command:_github.copilot.openSymbolFromReferences?%5B%22react-dom%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A21%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`react-hook-form`](command:_github.copilot.openSymbolFromReferences?%5B%22react-hook-form%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A22%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`react-redux`](command:_github.copilot.openSymbolFromReferences?%5B%22react-redux%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A23%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`react-router-dom`](command:_github.copilot.openSymbolFromReferences?%5B%22react-router-dom%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A24%2C%22character%22%3A5%7D%7D%2C%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fsrc%2Fcomponents%2FCard.jsx%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A1%2C%22character%22%3A22%7D%7D%5D%5D "Go to definition")
-- [`react-spinners`](command:_github.copilot.openSymbolFromReferences?%5B%22react-spinners%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A25%2C%22character%22%3A5%7D%7D%5D%5D "Go to definition")
-- [`tinymce`](command:_github.copilot.openSymbolFromReferences?%5B%22tinymce%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22external%22%3A%22file%3A%2F%2F%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%2520Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22path%22%3A%22%2FUsers%2Fswayam%2FDocuments%2FProgramming%2FWeb%20Dev%2FReact%2FCodeBlox%2Fpackage.json%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A14%2C%22character%22%3A6%7D%7D%5D%5D "Go to definition")
-
-## License
-
-This project is licensed under the MIT License.
