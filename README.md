@@ -54,4 +54,5 @@ To run the CodeBlox project locally, follow these steps:
 ```bash
   npm run dev
 ```
+> **Note**: You need to create free accounts in [Appwrite](https://appwrite.io/), [Google Cloud Console](https://console.cloud.google.com/), and [TinyMCE](https://www.tiny.cloud/) to obtain the API keys.
 
