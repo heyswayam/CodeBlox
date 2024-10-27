@@ -61,7 +61,7 @@ export default function PostForm({ post }) {
 			try {
 				const prompt = inputRef.current.value;
 				const result = await model.generateContent(
-					"Generate a blog post under 500 words if the word count is not specified. Use a first-person tone unless specified as an article, in which case use a formal tone. The topic for the blog post follows this sentence. If no topic is provided, return 'Please enter your prompt.'" +
+					"Generate me a blog post in 500-600 words without formatting (NO BOLD OR ITALICS OR NUMBER POINTS) in first person if not specified on the following:" +
 						prompt,
 				);
 
