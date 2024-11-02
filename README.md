@@ -14,11 +14,21 @@ CodeBlox is a feature-rich, responsive AI- powered blog platform designed to ins
 
 ## Tech Stack
 
-**Frontend:** React, React Router, React Hook Form, Tailwind-CSS, TinyMCE, Sonner, React Spinners, Spline
+**Frontend:**
+- React
+- React Router
+- React Hook Form
+- Tailwind-CSS
+- TinyMCE
+- Sonner
+- React Spinners
+- Spline
 
-**Backend:** Appwrite
+**Backend:**
+- Appwrite
 
-**AI Integration:** Google Gemini API
+**AI Integration:**
+- Google Gemini API
 
 ## Demo
 ![demo_final](https://github.com/user-attachments/assets/9a34e7d1-017c-41f1-bf92-d0aadc48d59b)
