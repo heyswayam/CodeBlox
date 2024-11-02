@@ -29,7 +29,7 @@ To run the CodeBlox project locally, follow these steps:
 1. Clone the project
 
 ```bash
-    git clone https://github.com/yourusername/codeblox.git
+    git clone https://github.com/heyswayam/codeblox.git
     cd codeblox
 ```
 2. Install dependencies
