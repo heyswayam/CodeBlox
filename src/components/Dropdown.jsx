@@ -34,7 +34,7 @@ function Dropdown({ label = "filter", options, onSelect, defaultValue }) {
                 <div className='fixed top-2 md:top-5'>
                     <details className='group [&_summary::-webkit-details-marker]:hidden'>
                         <summary className='flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600'>
-                            <span className='text-sm dark:text-gray-300 font-medium mx-auto'> {label} </span>
+                            <span className='text-sm dark:text-gray-300 font-medium mx-auto'> {options[selectedValue-1].text} </span>
 
                             <span className='transition group-open:-rotate-180'>
                                 <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' className='dark:stroke-white dark:group-open:stroke-white size-4'>

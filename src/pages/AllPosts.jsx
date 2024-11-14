@@ -18,7 +18,14 @@ export default function AllPosts() {
 		const fetchPosts = async () => {
 			setLoading(true);
 			try {
-				const postList = await postService.getfilterPosts({ key: "status", value: selectedOption === 1 ? "Public" : "Private" });
+				if (!authStatus) {
+					setSelectedOption(1); //makes the option as public
+				}
+				// Fetch filtered posts for authenticated users
+				const postList = await postService.getfilterPosts({
+					key: "status",
+					value: selectedOption === 1 ? "Public" : "Private",
+				});
 				setPosts(postList.documents);
 			} catch (error) {
 				console.error("Error fetching filtered posts:", error);
@@ -28,7 +35,7 @@ export default function AllPosts() {
 		};
 
 		fetchPosts();
-	}, [selectedOption]);
+	}, [selectedOption, authStatus]);
 
 	const handleSelect = (option) => {
 		setSelectedOption(option.key);
@@ -52,20 +59,20 @@ export default function AllPosts() {
 				}
 			</div>
 			{authStatus && <div className='-translate-x-20'>
-				<Dropdown
-					options={[
-						{
-							key: 1,
-							text: "Public",
-						},
-						{
-							key: 2,
-							text: "Private",
-						},
-					]}
-					onSelect={handleSelect}
-					defaultValue={selectedOption} // Set default value to the selected option
-				/>
+					<Dropdown
+						options={[
+							{
+								key: 1,
+								text: "Public",
+							},
+							{
+								key: 2,
+								text: "Private",
+							},
+						]}
+						onSelect={handleSelect}
+						defaultValue={selectedOption} // Set default value to the selected option
+					/>
 			</div>}
 		</div>
 	) : (
