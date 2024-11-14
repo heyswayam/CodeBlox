@@ -13,6 +13,7 @@ export default function AllPosts() {
 		return savedValue ? parseInt(savedValue) : 1; // Default to "Public"
 	});
 
+	const authStatus = useSelector((state) => state.auth.status);
 	useEffect(() => {
 		const fetchPosts = async () => {
 			setLoading(true);
@@ -50,7 +51,7 @@ export default function AllPosts() {
 					))
 				}
 			</div>
-			<div className='-translate-x-20'>
+			{authStatus && <div className='-translate-x-20'>
 				<Dropdown
 					options={[
 						{
@@ -65,7 +66,7 @@ export default function AllPosts() {
 					onSelect={handleSelect}
 					defaultValue={selectedOption} // Set default value to the selected option
 				/>
-			</div>
+			</div>}
 		</div>
 	) : (
 		<div className='flex flex-col h-screen justify-center items-center bg-background'>

@@ -45,9 +45,9 @@ const router = createBrowserRouter([
 			{
 				path: "/all-posts",
 				element: (
-					<AuthLayout>
+					// <AuthLayout>
 						<AllPosts/>
-					</AuthLayout>
+					// </AuthLayout>
 				),
 			},
 
@@ -79,9 +79,9 @@ const router = createBrowserRouter([
 			{
 				path: "/post/:slug",
 				element: (
-					<AuthLayout>
+					// <AuthLayout>
 						<Post/>
-					</AuthLayout>
+					// </AuthLayout>
 				),
 			},
 			{
