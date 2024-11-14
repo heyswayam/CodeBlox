@@ -35,7 +35,7 @@ export default function AllPosts() {
 		};
 
 		fetchPosts();
-	}, [selectedOption, authStatus]);
+	}, [selectedOption]);
 
 	const handleSelect = (option) => {
 		setSelectedOption(option.key);

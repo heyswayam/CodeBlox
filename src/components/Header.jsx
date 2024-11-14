@@ -33,6 +33,7 @@ export default function Header() {
 			dispatch(setLoader(true));
 			await authService.logout();
 			dispatch(logout());
+			localStorage.clear(); // Clear localStorage
 
 			toast.success("Logged out successfully!", {
 				position: "bottom-right",
