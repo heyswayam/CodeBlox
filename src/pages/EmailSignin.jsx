@@ -65,15 +65,24 @@ function EmailSignin() {
 				</h1>
 
 				<form onSubmit={handleSubmit(onSubmit)} className='mb-0 space-y-4 rounded-lg p-4 my-10 shadow-lg sm:p-6 lg:p-8 dark:bg-gray-700/30'>
-					<p className='text-center text-lg font-medium dark:text-white'>Sign in to your account</p>
+					<p className='text-center text-lg font-medium dark:text-white'>Join the Codeblox Community</p>
 
 					<div>
-						<label htmlFor='email' className='sr-only'>
-							Email
-						</label>
-						<div className='relative'>
-							<input {...register("email", { required: "Email is required" })} type='email' className='w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white' placeholder='Enter email' />
-							{errors.email && <span className='text-red-500 text-xs'>{errors.email.message}</span>}
+						<div className="relative mt-4">
+							<input
+								{...register("email", { required: "Email is required" })}
+								type="email"
+								id="floating_email"
+								className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+							/>
+							<label
+								htmlFor="floating_email"
+								className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] rounded-md bg-[#f1eef6] dark:bg-[#181923] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+							>
+								Email
+							</label>
+							{errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
 						</div>
 					</div>
 					<button type='submit' className='block w-full rounded-lg bg-secondary px-5 py-3 text-sm font-medium text-white' disabled={loading}>

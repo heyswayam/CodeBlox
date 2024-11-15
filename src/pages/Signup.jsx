@@ -136,10 +136,13 @@ function Signup() {
 					</button>
 
 					<p className='text-center text-sm text-gray-500 dark:text-gray-300'>
-						Already have an account?
+						Already have an account?{" "}
 						<Link to='/signin' className='underline dark:text-indigo-400'>
-							{" "}
 							Sign in
+						</Link>
+						{' '}or try{' '}
+						<Link to='/email-signin' className='underline dark:text-indigo-400'>
+							password-free sign in
 						</Link>
 					</p>
 				</form>
