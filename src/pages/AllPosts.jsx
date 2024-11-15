@@ -50,11 +50,11 @@ export default function AllPosts() {
 				{selectedOption === 2
 					? posts.filter(item => item.userId === userData.$id).length > 0
 						? posts.filter(item => item.userId === userData.$id).map(item => (
-							<Card key={item.$id} $id={item.$id} title={item.title} fileid={item.postImageId} content={item.content} />
+							<Card key={item.$id} $id={item.$id} title={item.title} fileid={item.postImageId} content={item.content} author={item.author} />
 						))
 						: <div className='col-span-full text-center text-gray-500'>No posts available for private</div>
 					: posts.map(item => (
-						<Card key={item.$id} $id={item.$id} title={item.title} fileid={item.postImageId} content={item.content} />
+						<Card key={item.$id} $id={item.$id} title={item.title} fileid={item.postImageId} content={item.content} author={item.author} />
 					))
 				}
 			</div>
