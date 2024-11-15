@@ -41,8 +41,10 @@ function App() {
 				}
 			})
 			.catch((error) => {
-				{authStatus && console.log("Error fetching user data:", error)}
-				localStorage.clear();
+				if (authStatus) {
+					console.log("Error fetching user data:", error);
+				}
+				localStorage.removeItem("selectedOption");
 			})
 			.finally(() => {
 				dispatch(setLoader(false));
