@@ -15,11 +15,13 @@ function App() {
 	const loading = useSelector((state) => state.loading.loader);
 	const theme = useSelector((state) => state.theme.mode);
 
-	const navigate = useNavigate();
+	const navigate = useNavigate();	
 	const location = useLocation();
 
 	const dispatch = useDispatch();
 	const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+
+	const authStatus = useSelector((state) => state.auth.status);
 //logged in or not
 	useEffect(() => {
 		authService
@@ -39,7 +41,8 @@ function App() {
 				}
 			})
 			.catch((error) => {
-				console.log("Error fetching user data:", error);
+				{authStatus && console.log("Error fetching user data:", error)}
+				localStorage.clear();
 			})
 			.finally(() => {
 				dispatch(setLoader(false));
