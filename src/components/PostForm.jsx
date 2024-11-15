@@ -19,6 +19,7 @@ export default function PostForm({ post }) {
 	const [mode, setMode] = useState(post?.status || "public");
 	const [dragActive, setDragActive] = useState(false);
 	const [previewImage, setPreviewImage] = useState(null);
+	const theme = useSelector((state) => state.theme.mode);
 
 	const handleRadioChange = () => {
 		const newMode = mode === "public" ? "private" : "public";
@@ -266,7 +267,7 @@ export default function PostForm({ post }) {
 								</div>
 
 								<p className='text-text w-fit mx-auto mb-3'>or</p>
-								<RTE name='content' control={control} />
+								<RTE name='content' control={control} theme={theme} />
 							</div>
 
 							<div className='mt-4'>

@@ -7,6 +7,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { MetaDecorator } from "../components/index";
 import { toast } from "sonner";
 import { setLoader } from "../context/loaderSlice";
+import Prism from "prismjs";
 
 export default function Post() {
 	const [post, setPost] = useState(null);
@@ -18,6 +19,7 @@ export default function Post() {
 	const dispatch = useDispatch();
 	const mode = useSelector((state) => state.theme.mode);
 	const isAuthor = post && userData ? post.userId === userData.$id : false;
+
 	const truncateHTML = (html) => {
 		//have hardcoded charLimit = 50
 		const text = html.replace(/<[^>]+>|&nbsp;|&[a-zA-Z]+;/g, ""); // Remove HTML tags and HTML entities like &nbsp; &amp;, &lt;, &gt;
@@ -44,6 +46,12 @@ export default function Post() {
 			setLoading(false);
 		}
 	}, [slug, navigate]);
+
+	useEffect(() => {
+		if (post) {
+			Prism.highlightAll();
+		}
+	}, [post]);
 
 	const deletePost = async () => {
 		try {
